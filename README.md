@@ -1,6 +1,6 @@
 # ecommerce_final_project
 
-A new Flutter project.
+Sebuah Projek Akhir yang dibuat untuk memenuhi Tugas Akhir Studi Independent Di MIKTI
 
 ## Getting Started
 
