@@ -42,12 +42,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 controller: pageController,
                 onPageChanged: (v) {
                   print(v.toString());
-                  halamanSekarang = v;
-                  setState(() {});
+                  setState(() {
+                    halamanSekarang = v;
+                  });
                 },
                 itemCount: onBoardingData.length,
                 itemBuilder: (_, i) {
                   return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Image.asset(onBoardingData[i]['image']),
                       Padding(
@@ -87,26 +89,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: Wrap(
                   spacing: 6,
                   children: [
-                    Container(
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.bounceInOut,
                       decoration: BoxDecoration(
-                          color: blueColor,
+                          color: halamanSekarang == 0 ? blueColor : GrayColor,
                           borderRadius: BorderRadius.circular(1000)),
                       height: 8,
-                      width: 20,
+                      width: halamanSekarang == 0 ? 20 : 8,
                     ),
-                    Container(
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.bounceInOut,
                       decoration: BoxDecoration(
-                          color: GrayColor,
+                          color: halamanSekarang == 1 ? blueColor : GrayColor,
                           borderRadius: BorderRadius.circular(1000)),
                       height: 8,
-                      width: 8,
+                      width: halamanSekarang == 1 ? 20 : 8,
                     ),
-                    Container(
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 200),
+                      curve: Curves.bounceInOut,
                       decoration: BoxDecoration(
-                          color: GrayColor,
+                          color: halamanSekarang == 2 ? blueColor : GrayColor,
                           borderRadius: BorderRadius.circular(1000)),
                       height: 8,
-                      width: 8,
+                      width: halamanSekarang == 2 ? 20 : 8,
                     ),
                   ],
                 ),
