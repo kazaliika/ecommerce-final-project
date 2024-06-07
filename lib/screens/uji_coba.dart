@@ -1,26 +1,25 @@
-import 'package:ecommerce_final_project/screens/onboarding.dart';
+// import 'package:ecommerce_final_project/screens/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+class UjiCoba extends StatefulWidget {
+  const UjiCoba({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<UjiCoba> createState() => _UjiCobaState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with SingleTickerProviderStateMixin {
+class _UjiCobaState extends State<UjiCoba> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (_) => const OnboardingScreen(),
-      ));
-    });
+    // Future.delayed(const Duration(seconds: 2), () {
+    //   Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //     builder: (_) => const OnboardingScreen(),
+    //   ));
+    // });
   }
 
   @override

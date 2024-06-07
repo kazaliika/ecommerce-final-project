@@ -5,9 +5,9 @@ Sebuah Projek Akhir yang dibuat untuk memenuhi Tugas Akhir Studi Independent Di 
 Group Member:
 - Sigit Suseno (Ketua Team)
 - Halim Teguh Saputro (Wakil Ketua)
-- Muhammad Iqbal Ramadhan Purba
 - Febry Christiani Thomas 
 - Shasha Ramadhani Putri 
+- Muhammad Iqbal Ramadhan Purba
 
 ## Getting Started
 
