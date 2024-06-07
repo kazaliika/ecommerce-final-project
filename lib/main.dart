@@ -9,11 +9,14 @@ void main() {
   runApp(const MyApp());
 }
 
+// whenever your initialization is completed, remove the splash screen:
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: GoogleFonts.poppins().fontFamily),
