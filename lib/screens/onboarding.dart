@@ -96,14 +96,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: GrayColor,
+                          color: grayColor,
                           borderRadius: BorderRadius.circular(1000)),
                       height: 8,
                       width: 8,
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: GrayColor,
+                          color: grayColor,
                           borderRadius: BorderRadius.circular(1000)),
                       height: 8,
                       width: 8,
