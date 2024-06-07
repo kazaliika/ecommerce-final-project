@@ -12,8 +12,18 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 2, vsync: this);
+    _tabController.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +80,32 @@ class _HomeScreenState extends State<HomeScreen> {
             width: 15,
           ),
         ],
+        bottom: TabBar(
+          dividerColor: Colors.transparent,
+          labelColor: Colors.black,
+          labelStyle: TextStyle(fontWeight: FontWeight.bold),
+          unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal, color: Colors.black54),
+          indicatorColor: blueColor,
+          indicatorSize: TabBarIndicatorSize.tab,
+          indicatorPadding: EdgeInsets.symmetric(horizontal: 50),
+          overlayColor: WidgetStatePropertyAll(Colors.transparent),
+          controller: _tabController,
+          tabs: [
+            // Tab Home
+            Tab(
+              text: "Home",
+            ),
+
+            // Tab Category
+            Tab(
+              text: "Category",
+            ),
+          ],
+        ),
       ),
-      body: Text("Home Page"),
+      body: Padding(
+        padding: EdgeInsets.all(25),
+      ),
     );
   }
 }
