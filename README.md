@@ -2,6 +2,13 @@
 
 Sebuah Projek Akhir yang dibuat untuk memenuhi Tugas Akhir Studi Independent Di MIKTI
 
+Group Member:
+- Sigit Suseno (Ketua Team)
+- Halim Teguh Saputro (Wakil Ketua)
+- Muhammad Iqbal Ramadhan Purba
+- Febry Christiani Thomas 
+- Shasha Ramadhani Putri 
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
