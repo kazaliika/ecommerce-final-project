@@ -1,19 +1,17 @@
-import 'package:ecommerce_final_project/screens/cart_screen.dart';
-import 'package:ecommerce_final_project/screens/favorite_screen.dart';
-import 'package:ecommerce_final_project/screens/profile_screen.dart';
+import 'package:ecommerce_final_project/screens/home/category_screen.dart';
+import 'package:ecommerce_final_project/screens/home/home_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class LayoutHome extends StatefulWidget {
+  const LayoutHome({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<LayoutHome> createState() => _LayoutHomeState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
-
+class _LayoutHomeState extends State<LayoutHome>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -84,7 +82,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
           dividerColor: Colors.transparent,
           labelColor: Colors.black,
           labelStyle: TextStyle(fontWeight: FontWeight.bold),
-          unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal, color: Colors.black54),
+          unselectedLabelStyle:
+              TextStyle(fontWeight: FontWeight.normal, color: Colors.black54),
           indicatorColor: blueColor,
           indicatorSize: TabBarIndicatorSize.tab,
           indicatorPadding: EdgeInsets.symmetric(horizontal: 50),
@@ -105,6 +104,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       ),
       body: Padding(
         padding: EdgeInsets.all(25),
+        child: TabBarView(
+          controller: _tabController,
+          children: [
+            HomeScreen(tabController: _tabController),
+            CategoryScreen(tabController: _tabController),
+          ],
+        ),
       ),
     );
   }

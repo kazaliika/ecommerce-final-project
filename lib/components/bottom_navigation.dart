@@ -1,9 +1,10 @@
 import 'package:ecommerce_final_project/screens/cart_screen.dart';
 import 'package:ecommerce_final_project/screens/favorite_screen.dart';
-import 'package:ecommerce_final_project/screens/home_screen.dart';
 import 'package:ecommerce_final_project/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+
+import '../screens/home/layout_home.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({super.key});
@@ -20,7 +21,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     return PersistentTabView(
       tabs: [
         PersistentTabConfig(
-          screen: HomeScreen(),
+          screen: LayoutHome(),
           item: ItemConfig(
             icon: Icon(Icons.home),
             title: "Home",
