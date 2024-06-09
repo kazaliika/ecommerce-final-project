@@ -93,7 +93,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       duration: Duration(milliseconds: 200),
                       curve: Curves.bounceInOut,
                       decoration: BoxDecoration(
-                          color: halamanSekarang == 0 ? blueColor : GrayColor,
+                          color: halamanSekarang == 0 ? blueColor : grayColor,
                           borderRadius: BorderRadius.circular(1000)),
                       height: 8,
                       width: halamanSekarang == 0 ? 20 : 8,
@@ -103,7 +103,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       curve: Curves.bounceInOut,
                       decoration: BoxDecoration(
 
-                          color: halamanSekarang == 1 ? blueColor : GrayColor,
+                          color: halamanSekarang == 1 ? blueColor : grayColor,
                           borderRadius: BorderRadius.circular(1000)),
                       height: 8,
                       width: halamanSekarang == 1 ? 20 : 8,
@@ -113,7 +113,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       curve: Curves.bounceInOut,
                       decoration: BoxDecoration(
 
-                          color: halamanSekarang == 2 ? blueColor : GrayColor,
+                          color: halamanSekarang == 2 ? blueColor : grayColor,
                           borderRadius: BorderRadius.circular(1000)),
                       height: 8,
                       width: halamanSekarang == 2 ? 20 : 8,
