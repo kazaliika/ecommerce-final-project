@@ -22,15 +22,12 @@ class _HomeScreenState extends State<HomeScreen> {
     'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
   ];
 
-  // final CarouselController _carouselController = CarouselController();
-
-  List<int> list = [1, 2, 3, 4, 5];
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
+          // Carousel Slidder
           FlutterCarousel(
             options: CarouselOptions(
               height: 200,
@@ -39,10 +36,13 @@ class _HomeScreenState extends State<HomeScreen> {
               autoPlay: true,
               autoPlayInterval: const Duration(seconds: 10),
               floatingIndicator: false,
+              indicatorMargin: 20,
               slideIndicator: CircularSlideIndicator(
-                currentIndicatorColor: blueColor,
-                indicatorBackgroundColor: grayColor
-              ),
+                  itemSpacing: 15,
+                  indicatorRadius: 4,
+                  indicatorBorderWidth: 0.5,
+                  currentIndicatorColor: blueColor,
+                  indicatorBackgroundColor: grayColor),
             ),
             items: imgList.map((i) {
               return Builder(
@@ -63,6 +63,102 @@ class _HomeScreenState extends State<HomeScreen> {
             }).toList(),
           ),
 
+          SizedBox(
+            height: 20,
+          ),
+
+          // Title Section
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "New Arrivals 🔥",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  "see all",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: blueColor,
+                  ),
+                ),
+              ),
+            ],
+          ),
+
+          // GridView Item
+          SizedBox(
+            height: 400,
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+                childAspectRatio:
+                    9 / 16, // Sesuaikan dengan rasio aspek yang diinginkan
+              ),
+              itemCount: imgList.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  decoration: BoxDecoration(
+                  ),
+                  child: Column(
+                    children: [
+                      // Image Product
+                      AspectRatio(
+                        aspectRatio: 3 / 4,
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            image: DecorationImage(
+                              image: NetworkImage(imgList[index]),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      // Title Product
+                      Text(
+                        "The Mirac Jiz",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      SizedBox(
+                        height: 5,
+                      ),
+
+                      // Brand Product
+                      Text(
+                        "Lisa Robber",
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: fontGrayColor,
+                        ),
+                      ),
+
+                     
+
+                      // Price Product
+                      Text(
+                        "\$195.00",
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
