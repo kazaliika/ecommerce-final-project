@@ -1,3 +1,4 @@
+import 'package:ecommerce_final_project/components/bottom_navigation.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -35,6 +36,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           Expanded(
@@ -93,7 +95,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       duration: Duration(milliseconds: 200),
                       curve: Curves.bounceInOut,
                       decoration: BoxDecoration(
-                          color: halamanSekarang == 0 ? blueColor : GrayColor,
+                          color: halamanSekarang == 0 ? blueColor : grayColor,
                           borderRadius: BorderRadius.circular(1000)),
                       height: 8,
                       width: halamanSekarang == 0 ? 20 : 8,
@@ -102,8 +104,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       duration: Duration(milliseconds: 200),
                       curve: Curves.bounceInOut,
                       decoration: BoxDecoration(
-
-                          color: halamanSekarang == 1 ? blueColor : GrayColor,
+                          color: halamanSekarang == 1 ? blueColor : grayColor,
                           borderRadius: BorderRadius.circular(1000)),
                       height: 8,
                       width: halamanSekarang == 1 ? 20 : 8,
@@ -112,8 +113,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       duration: Duration(milliseconds: 200),
                       curve: Curves.bounceInOut,
                       decoration: BoxDecoration(
-
-                          color: halamanSekarang == 2 ? blueColor : GrayColor,
+                          color: halamanSekarang == 2 ? blueColor : grayColor,
                           borderRadius: BorderRadius.circular(1000)),
                       height: 8,
                       width: halamanSekarang == 2 ? 20 : 8,
@@ -146,6 +146,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 child: GestureDetector(
                   onTap: () {
                     print("sudah punya akun");
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return BottomNavigation();
+                        },
+                      ),
+                    );
                   },
                   child: Container(
                     width: double.infinity,
