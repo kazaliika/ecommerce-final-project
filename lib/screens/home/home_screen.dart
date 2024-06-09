@@ -1,7 +1,6 @@
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
-import 'package:flutter/src/material/carousel.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key, required this.tabController});

@@ -32,7 +32,10 @@ class _LayoutHomeState extends State<LayoutHome>
         toolbarHeight: 100,
         leadingWidth: 80,
         leading: Padding(
-          padding: const EdgeInsets.only(left: 25.0),
+          padding: const EdgeInsets.only(
+            left: 25.0,
+            top: 25
+          ),
           child: Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -47,6 +50,9 @@ class _LayoutHomeState extends State<LayoutHome>
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(
+              height: 25,
+            ),
             // Greet User Text
             Text(
               'Hi, Sigit',
@@ -69,11 +75,17 @@ class _LayoutHomeState extends State<LayoutHome>
         ),
         actions: [
           // Search
-          IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+          Padding(
+            padding: const EdgeInsets.only(top: 25),
+            child: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+          ),
 
           // Notification
-          IconButton(
-              onPressed: () {}, icon: Icon(Icons.notifications_outlined)),
+          Padding(
+            padding: const EdgeInsets.only(top: 25),
+            child: IconButton(
+                onPressed: () {}, icon: Icon(Icons.notifications_outlined)),
+          ),
           SizedBox(
             width: 15,
           ),
