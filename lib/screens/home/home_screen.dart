@@ -2,6 +2,8 @@ import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 
+import '../../components/product_tile.dart';
+
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key, required this.tabController});
 
@@ -101,59 +103,12 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               itemCount: imgList.length,
               itemBuilder: (context, index) {
-                return Container(
-                  decoration: BoxDecoration(
-                  ),
-                  child: Column(
-                    children: [
-                      // Image Product
-                      AspectRatio(
-                        aspectRatio: 3 / 4,
-                        child: Container(
-                          margin: EdgeInsets.only(bottom: 8),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            image: DecorationImage(
-                              image: NetworkImage(imgList[index]),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      // Title Product
-                      Text(
-                        "The Mirac Jiz",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      SizedBox(
-                        height: 5,
-                      ),
-
-                      // Brand Product
-                      Text(
-                        "Lisa Robber",
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: fontGrayColor,
-                        ),
-                      ),
-
-                     
-
-                      // Price Product
-                      Text(
-                        "\$195.00",
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
+                return ProductTile(
+                  titleProduct: "The Mirac Jiz",
+                  brandProduct: "Lisa Robber",
+                  price: 195.00,
+                  imagePath: imgList[index],
+                  isFavorite: (index % 2 == 0) ? true : false,
                 );
               },
             ),
