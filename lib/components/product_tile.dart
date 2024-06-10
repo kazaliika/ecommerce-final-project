@@ -1,3 +1,4 @@
+import 'package:ecommerce_final_project/screens/home/detail_product_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -19,79 +20,84 @@ class ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(),
-      child: Column(
-        children: [
-          // Image Product
-          Stack(
-            alignment: Alignment.topRight,
-            children: [
-              AspectRatio(
-                aspectRatio: 3 / 4,
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                      image: NetworkImage(imagePath),
-                      fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailProductScreen(),));
+      },
+      child: Container(
+        decoration: BoxDecoration(),
+        child: Column(
+          children: [
+            // Image Product
+            Stack(
+              alignment: Alignment.topRight,
+              children: [
+                AspectRatio(
+                  aspectRatio: 3 / 4,
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      image: DecorationImage(
+                        image: NetworkImage(imagePath),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Container(
-                margin: EdgeInsetsDirectional.all(10),
-                width: 30,
-                height: 30,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.black54,
-                ),
-                child: IconButton(
-                  icon: Icon(
-                    (isFavorite)
-                        ? Icons.favorite
-                        : Icons.favorite_border_outlined,
-                    color: (isFavorite) ? Colors.redAccent : Colors.white,
-                    size: 15,
+                Container(
+                  margin: EdgeInsetsDirectional.all(10),
+                  width: 30,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.black54,
                   ),
-                  onPressed: () {},
+                  child: IconButton(
+                    icon: Icon(
+                      (isFavorite)
+                          ? Icons.favorite
+                          : Icons.favorite_border_outlined,
+                      color: (isFavorite) ? Colors.redAccent : Colors.white,
+                      size: 15,
+                    ),
+                    onPressed: () {},
+                  ),
                 ),
+              ],
+            ),
+      
+            // Title Product
+            Text(
+              titleProduct,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
-
-          // Title Product
-          Text(
-            titleProduct,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
             ),
-          ),
-
-          SizedBox(
-            height: 5,
-          ),
-
-          // Brand Product
-          Text(
-            brandProduct,
-            style: TextStyle(
-              fontSize: 12,
-              color: fontGrayColor,
+      
+            SizedBox(
+              height: 5,
             ),
-          ),
-
-          // Price Product
-          Text(
-            "\$$price",
-            style: TextStyle(
-              fontSize: 16,
+      
+            // Brand Product
+            Text(
+              brandProduct,
+              style: TextStyle(
+                fontSize: 12,
+                color: fontGrayColor,
+              ),
             ),
-          ),
-        ],
+      
+            // Price Product
+            Text(
+              "\$$price",
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
