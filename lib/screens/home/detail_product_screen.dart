@@ -1,4 +1,3 @@
-import 'package:ecommerce_final_project/main.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -104,7 +103,6 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     // Header Information Product
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,7 +155,6 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                 ),
                               ],
                             ),
-
                           ],
                         ),
 
@@ -187,7 +184,6 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                     Expanded(
                       child: ListView(
                         children: [
-
                           // List Variant Product
                           Text(
                             "Variation",
@@ -207,7 +203,6 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                             height: 20,
                           ),
 
-                          
                           // Description Product
                           Text(
                             "Description",
@@ -230,8 +225,6 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                           SizedBox(
                             height: 20,
                           ),
-
-                          
 
                           // Profile Penjual
                           Row(
@@ -309,7 +302,10 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                 ),
                               ),
                             ],
-                          )
+                          ),
+                          SizedBox(
+                            height: 100,
+                          ),
                         ],
                       ),
                     ),
@@ -317,6 +313,108 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                 ),
               ),
             ],
+          ),
+
+          // Add to Cart Bar
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 100,
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(
+                horizontal: 25,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                  top: BorderSide(
+                    color: grayColor,
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Price Information
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Price",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: fontGrayColor,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "\$",
+                            style: TextStyle(
+                              fontSize: 14,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            "24.00",
+                            style: TextStyle(
+                                fontSize: 24, fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
+
+                  // Add to Cart Button
+                  ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        padding: WidgetStatePropertyAll(
+                          EdgeInsets.symmetric(
+                            horizontal: 25,
+                            vertical: 15,
+                          ),
+                        ),
+                        backgroundColor: WidgetStatePropertyAll(
+                          blueColor,
+                        ),
+                        foregroundColor: WidgetStatePropertyAll(
+                          Colors.white,
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.shopping_bag_outlined,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "Add to Cart",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          )
+                        ],
+                      ))
+                ],
+              ),
+            ),
           ),
         ],
       ),

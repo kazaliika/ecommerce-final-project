@@ -1,6 +1,7 @@
 import 'package:ecommerce_final_project/screens/home/detail_product_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 class ProductTile extends StatelessWidget {
   const ProductTile({
@@ -22,7 +23,10 @@ class ProductTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailProductScreen(),));
+        pushScreen(
+          context,
+          screen: DetailProductScreen(),
+        );
       },
       child: Container(
         decoration: BoxDecoration(),
@@ -66,7 +70,7 @@ class ProductTile extends StatelessWidget {
                 ),
               ],
             ),
-      
+
             // Title Product
             Text(
               titleProduct,
@@ -75,11 +79,11 @@ class ProductTile extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-      
+
             SizedBox(
               height: 5,
             ),
-      
+
             // Brand Product
             Text(
               brandProduct,
@@ -88,7 +92,7 @@ class ProductTile extends StatelessWidget {
                 color: fontGrayColor,
               ),
             ),
-      
+
             // Price Product
             Text(
               "\$$price",

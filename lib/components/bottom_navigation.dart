@@ -14,10 +14,19 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
+  late PersistentTabController _navigationController;
+
+  @override
+  void initState() {
+    super.initState();
+    _navigationController = PersistentTabController(initialIndex: 0);
+  }
+
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(
-      margin: EdgeInsets.only(bottom: 10),
+      controller: _navigationController,
+      navBarHeight: 70,
       tabs: [
         PersistentTabConfig(
           screen: LayoutHome(),
@@ -51,7 +60,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
       navBarBuilder: (navBarConfig) => Style1BottomNavBar(
         navBarConfig: navBarConfig,
         navBarDecoration: NavBarDecoration(
-          padding: EdgeInsets.only(top: 10),
+          padding: EdgeInsets.only(top: 13, bottom: 15),
           boxShadow: [
             BoxShadow(color: Colors.black26, offset: Offset(0, -1), blurRadius: 2, )
           ]
