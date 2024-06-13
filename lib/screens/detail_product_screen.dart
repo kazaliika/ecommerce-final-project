@@ -1,3 +1,4 @@
+import 'package:ecommerce_final_project/screens/cart_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -79,7 +80,15 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                 ),
                 actions: [
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return CartScreen();
+                          },
+                        ),
+                      );
+                    },
                     icon: Padding(
                       padding: const EdgeInsets.only(right: 15),
                       child: Icon(
