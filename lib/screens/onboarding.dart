@@ -43,7 +43,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: PageView.builder(
                 controller: pageController,
                 onPageChanged: (v) {
-                  print(v.toString());
                   setState(() {
                     halamanSekarang = v;
                   });
@@ -124,9 +123,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: GestureDetector(
-                  onTap: () {
-                    print("daftar akun");
-                  },
+                  onTap: () {},
                   child: Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(vertical: 13.5),

@@ -14,8 +14,6 @@ class BottomNavigation extends StatefulWidget {
 }
 
 class _BottomNavigationState extends State<BottomNavigation> {
-
-
   @override
   Widget build(BuildContext context) {
     return PersistentTabView(

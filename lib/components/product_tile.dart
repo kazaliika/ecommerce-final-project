@@ -9,6 +9,7 @@ class ProductTile extends StatelessWidget {
     required this.price,
     required this.imagePath,
     required this.isFavorite,
+    required this.onChangeFavorite,
   });
 
   final String titleProduct;
@@ -16,11 +17,11 @@ class ProductTile extends StatelessWidget {
   final double price;
   final String imagePath;
   final bool isFavorite;
+  final VoidCallback onChangeFavorite;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(),
       child: Column(
         children: [
           // Image Product
@@ -50,13 +51,13 @@ class ProductTile extends StatelessWidget {
                 ),
                 child: IconButton(
                   icon: Icon(
-                    (isFavorite)
+                    isFavorite
                         ? Icons.favorite
                         : Icons.favorite_border_outlined,
-                    color: (isFavorite) ? Colors.redAccent : Colors.white,
+                    color: isFavorite ? Colors.red : Colors.white,
                     size: 15,
                   ),
-                  onPressed: () {},
+                  onPressed: onChangeFavorite,
                 ),
               ),
             ],

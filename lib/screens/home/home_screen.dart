@@ -1,8 +1,10 @@
+import 'package:ecommerce_final_project/models/favorite.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 
 import '../../components/product_tile.dart';
+import '../../models/item.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key, required this.tabController});
@@ -22,6 +24,35 @@ class _HomeScreenState extends State<HomeScreen> {
     'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
     'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
   ];
+
+  List<Item> items = List.generate(
+    10,
+    (index) => Item(
+      'Item $index',
+      'Description for item $index',
+      192.00,
+      'https://picsum.photos/200/300?random=$index',
+    ),
+  );
+
+  String searchQuery = "";
+
+  late Function(Item) onFavoriteToggle;
+
+  Favorite favoriteData = Favorite();
+
+  void toggleFavorite(Item item) {
+    print(favoriteData.itemsFavorite.length);
+    setState(() {
+      if (favoriteData.itemsFavorite.contains(item)) {
+        favoriteData.removeItemFavorite(item);
+      } else {
+        favoriteData.addItemFavorite(item);
+      }
+    });
+  }
+
+  void onChangeFavorite(bool isFavorite) {}
 
   @override
   Widget build(BuildContext context) {
@@ -101,14 +132,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 childAspectRatio:
                     9 / 16, // Sesuaikan dengan rasio aspek yang diinginkan
               ),
-              itemCount: imgList.length,
+              itemCount: items.length,
               itemBuilder: (context, index) {
+                final item = items[index];
+                final isFavorite = favoriteData.itemsFavorite.contains(item);
+
                 return ProductTile(
-                  titleProduct: "The Mirac Jiz",
-                  brandProduct: "Lisa Robber",
-                  price: 195.00,
-                  imagePath: imgList[index],
-                  isFavorite: (index % 2 == 0) ? true : false,
+                  titleProduct: item.titleProduct,
+                  brandProduct: item.brandProduct,
+                  price: item.price,
+                  imagePath: item.imagePath,
+                  isFavorite: isFavorite,
+                  onChangeFavorite: () => toggleFavorite(item),
                 );
               },
             ),
