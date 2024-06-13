@@ -1,4 +1,3 @@
-import 'package:ecommerce_final_project/components/bottom_navigation.dart';
 import 'package:ecommerce_final_project/screens/login.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';

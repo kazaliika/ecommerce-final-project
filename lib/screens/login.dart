@@ -1,11 +1,7 @@
 import 'package:ecommerce_final_project/components/bottom_navigation.dart';
+import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MaterialApp(
-    home: LoginScreen(),
-  ));
-}
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -98,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Text(
                     'Forgot Password?',
                     style: TextStyle(
-                      color: Colors.blue,
+                      color: blueColor,
                     ),
                   ),
                 ),
@@ -119,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    backgroundColor: Colors.blue,
+                    backgroundColor: blueColor,
                     foregroundColor: Colors.white,
                   ),
                 ),
