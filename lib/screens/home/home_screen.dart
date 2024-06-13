@@ -59,6 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
+
           // Carousel Slidder
           FlutterCarousel(
             options: CarouselOptions(
@@ -123,7 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           // GridView Item
           SizedBox(
-            height: 400,
+            height: 650,
             child: GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
@@ -148,6 +149,8 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ),
+
+          
         ],
       ),
     );
