@@ -1,8 +1,11 @@
+import 'package:ecommerce_final_project/models/favorite.dart';
+import 'package:ecommerce_final_project/screens/favorite_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 
 import '../../components/product_tile.dart';
+import '../../models/item.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key, required this.tabController});
@@ -23,12 +26,44 @@ class _HomeScreenState extends State<HomeScreen> {
     'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
   ];
 
+  List<Item> items = List.generate(
+    10,
+    (index) => Item(
+      'Item $index',
+      'Description for item $index',
+      192.00,
+      'https://picsum.photos/200/300?random=$index',
+    ),
+  );
+
+  String searchQuery = "";
+
+  late Function(Item) onFavoriteToggle;
+
+  List<Item> favoriteList = [];
+
+  Favorite favoriteData = Favorite();
+
+  void toggleFavorite(Item item) {
+    setState(() {
+      if (favoriteData.itemsFavorite.contains(item)) {
+        favoriteData.removeItemFavorite(item);
+        favoriteList.remove(item);
+      } else {
+        favoriteList.add(item);
+        favoriteData.addItemFavorite(item);
+      }
+      print(favoriteList.length);
+    });
+  }
+
+  void onChangeFavorite(bool isFavorite) {}
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
-
           // Carousel Slidder
           FlutterCarousel(
             options: CarouselOptions(
@@ -78,7 +113,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return FavoriteScreen(
+                        listFavorite: favoriteList,
+                      );
+                    },
+                  ));
+                },
                 child: Text(
                   "see all",
                   style: TextStyle(
@@ -102,20 +145,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 childAspectRatio:
                     9 / 16, // Sesuaikan dengan rasio aspek yang diinginkan
               ),
-              itemCount: imgList.length,
+              itemCount: items.length,
               itemBuilder: (context, index) {
+                final item = items[index];
+                final isFavorite = favoriteData.itemsFavorite.contains(item);
+
                 return ProductTile(
-                  titleProduct: "The Mirac Jiz",
-                  brandProduct: "Lisa Robber",
-                  price: 195.00,
-                  imagePath: imgList[index],
-                  isFavorite: (index % 2 == 0) ? true : false,
+                  titleProduct: item.titleProduct,
+                  brandProduct: item.brandProduct,
+                  price: item.price,
+                  imagePath: item.imagePath,
+                  isFavorite: isFavorite,
+                  onChangeFavorite: () => toggleFavorite(item),
                 );
               },
             ),
           ),
-
-          
         ],
       ),
     );
