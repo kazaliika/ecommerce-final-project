@@ -121,7 +121,8 @@ class RegisterScreen extends StatelessWidget {
                       );
                     },
                     // icon: const Icon(Icons.login, color: Colors.blue),
-                    label: const Text('Sign Up with Facebook'),
+                    icon: Image.asset('assets/images/facebook.png', height: 24),
+                    label: Text('Sign In with Facebook'),
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.black,
                       backgroundColor: Colors.white,
