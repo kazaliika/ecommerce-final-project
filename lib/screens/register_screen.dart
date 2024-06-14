@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import '../components/bottom_navigation.dart';
 
 class RegisterScreen extends StatelessWidget {
-  const RegisterScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -115,12 +113,12 @@ class RegisterScreen extends StatelessWidget {
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return BottomNavigation();
-                        },
-                      ),
-                    );
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return BottomNavigation();
+                          },
+                        ),
+                      );
                     },
                     // icon: const Icon(Icons.login, color: Colors.blue),
                     label: const Text('Sign Up with Facebook'),
