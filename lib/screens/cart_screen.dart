@@ -1,5 +1,10 @@
+import 'dart:math';
+
+import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
+
+import 'home/item_cart_tile.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -9,14 +14,117 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  String imgPath =
-      "https://images.unsplash.com/photo-1603252109612-24fa03d145c8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  List data = [
+    {
+      "title": "Bix Bag Limited Edition 229",
+      "variant": "Black",
+      "price": 26.00,
+      "image":
+          "https://images.unsplash.com/photo-1603252109612-24fa03d145c8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "title": "T-Shirt kiw kiw",
+      "variant": "Black",
+      "price": 30.00,
+      "image":
+          "https://images.unsplash.com/photo-1603252109612-24fa03d145c8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "title": "Long Pants",
+      "variant": "White",
+      "price": 12.00,
+      "image":
+          "https://images.unsplash.com/photo-1603252109612-24fa03d145c8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "title": "Long Pants",
+      "variant": "White",
+      "price": 12.00,
+      "image":
+          "https://images.unsplash.com/photo-1603252109612-24fa03d145c8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "title": "Long Pants",
+      "variant": "White",
+      "price": 12.00,
+      "image":
+          "https://images.unsplash.com/photo-1603252109612-24fa03d145c8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "title": "Long Pants",
+      "variant": "White",
+      "price": 12.00,
+      "image":
+          "https://images.unsplash.com/photo-1603252109612-24fa03d145c8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      "title": "Long Pants",
+      "variant": "White",
+      "price": 12.00,
+      "image":
+          "https://images.unsplash.com/photo-1603252109612-24fa03d145c8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+  ];
 
-  bool checkbox = false;
+  List<Map<String, dynamic>> checkedItems = [];
+  double totalAmount = 0;
+  double _bottomPositionContainer = -230;
 
-  void isChecked(value) {
+  @override
+  void initState() {
+    super.initState();
+
+    totalAmount = calculateTotal(checkedItems);
+  }
+
+  void deletedItem(int index) {
     setState(() {
-      checkbox = value;
+      data.removeAt(index);
+      checkedItems.removeWhere((item) => item['index'] == index);
+    });
+    Navigator.of(context).pop();
+  }
+
+  void toggleChecked(int index, bool? value) {
+    setState(() {
+      if (value == true) {
+        checkedItems.add({...data[index], 'index': index});
+      } else {
+        checkedItems.removeWhere((item) => item['index'] == index);
+      }
+      totalAmount = calculateTotal(checkedItems);
+    });
+
+    if (checkedItems.length > 0) {
+      inPaymentContainer();
+    } else {
+      outPaymentContainer();
+    }
+  }
+
+  double calculateTotal(List<Map<String, dynamic>> checkedItems) {
+    double totalAmount = 0;
+
+    for (var item in checkedItems) {
+      totalAmount += item['price'];
+    }
+
+    return totalAmount;
+  }
+
+  void inPaymentContainer() {
+    Future.delayed(Duration(milliseconds: 100), () {
+      setState(() {
+        _bottomPositionContainer = 0; // Ubah posisi container setelah delay
+      });
+    });
+  }
+
+  void outPaymentContainer() {
+    Future.delayed(Duration(milliseconds: 100), () {
+      setState(() {
+        _bottomPositionContainer = -230; // Ubah posisi container setelah delay
+      });
     });
   }
 
@@ -26,6 +134,7 @@ class _CartScreenState extends State<CartScreen> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
         toolbarHeight: 120,
         leading: Padding(
           padding: const EdgeInsets.only(left: 15, top: 40, bottom: 50),
@@ -45,262 +154,153 @@ class _CartScreenState extends State<CartScreen> {
           ),
         ),
       ),
-      body: ListView.builder(
-        itemCount: 2,
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              CartTile(
-                imgPath: imgPath,
-                name: "Bix Bag Limited Edition 229",
-                variant: "Black",
-                count: 1,
-                price: 26.00,
-                isChecked: (value){
-                  checkbox = value!;
-                }
-              ),
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                child: Divider(
-                  color: Colors.black12,
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
-
-class CartTile extends StatefulWidget {
-  const CartTile({
-    super.key,
-    required this.imgPath,
-    required this.name,
-    required this.variant,
-    required this.count,
-    required this.price,
-    required this.isChecked,
-  });
-
-  final String imgPath;
-  final String name;
-  final String variant;
-  final int count;
-  final double price;
-  final Function(bool?)? isChecked;
-
-  @override
-  State<CartTile> createState() => _CartTileState();
-}
-
-class _CartTileState extends State<CartTile> {
-  late int amountProduct;
-  @override
-  void initState() {
-    super.initState();
-    amountProduct = widget.count > 0 ? widget.count : 1;
-  }
-
-  void addProduct() {
-    setState(() {
-      amountProduct++;
-    });
-  }
-
-  void removeProduct() {
-    if (amountProduct == 1) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('You will remove this product, are you sure?'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                child: Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Logic to remove the product goes here
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-                child: Text('Remove'),
-              ),
-            ],
-          );
-        },
-      );
-    } else {
-      setState(() {
-        amountProduct--;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 10),
-      child: ListTile(
-        title: Row(
-          children: [
-            // CheckBox
-            Checkbox(
-              value: false,
-              onChanged: widget.isChecked,
-            ),
-
-            // image product
-            Container(
-              height: 100,
-              child: AspectRatio(
-                aspectRatio: 3 / 4,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    image: DecorationImage(
-                      image: NetworkImage(widget.imgPath),
-                      fit: BoxFit.cover,
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          ListView.builder(
+            itemCount: data.length,
+            itemBuilder: (context, index) {
+              return Column(
+                children: [
+                  CartTile(
+                    imgPath: data[index]['image'],
+                    name: data[index]['title'],
+                    variant: data[index]['variant'],
+                    count: 1,
+                    price: data[index]['price'],
+                    onChangedCheckbox: (value) => toggleChecked(index, value),
+                    deletedItem: () => deletedItem(index),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(horizontal: 20),
+                    child: Divider(
+                      color: Colors.black12,
                     ),
                   ),
+                  (_bottomPositionContainer == 0 && data.length - 1 == index)
+                      ? Container(
+                        padding: EdgeInsets.only(top: 10, bottom: 230),
+                        child: Text('End of data', style: TextStyle(fontSize: 14, color: fontGrayColor,),),
+                      )
+                      : Container(),
+                ],
+              );
+            },
+          ),
+          AnimatedPositioned(
+            duration: Duration(milliseconds: 500),
+            left: 0,
+            right: 0,
+            curve: Curves.easeInOutCubic,
+            bottom: _bottomPositionContainer,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+              width: double.infinity,
+              height: 230,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black26,
+                    offset: Offset(0, -2),
+                    spreadRadius: 2,
+                    blurRadius: 10,
+                  ),
+                ],
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(50),
+                  topRight: Radius.circular(50),
                 ),
               ),
-            ),
-            SizedBox(
-              width: 20,
-            ),
-
-            // information product
-            Expanded(
-              child: Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Title
-                    Text(
-                      "Bix Bag Limited Edition 229",
-                      maxLines: 2,
-                      softWrap: true, // Ensure text wraps to next line
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 100,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: grayColor,
+                      borderRadius: BorderRadius.circular(50),
                     ),
-                    // Variant
-                    Row(
-                      children: [
-                        Text(
-                          "Variant: ",
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: fontGrayColor,
-                          ),
-                        ),
-                        Text(
-                          widget.variant,
-                          style: TextStyle(
-                            fontSize: 12,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-
-                    // amount of product and price
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          // Counter amount of product
-                          Container(
-                            padding: EdgeInsets.symmetric(vertical: 5),
-                            width: 110,
-                            decoration: BoxDecoration(
-                              color: Colors.black12,
-                              borderRadius: BorderRadius.circular(100),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Column(
+                    children: [
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Total amount",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: fontGrayColor,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                // Button remove item
-                                Container(
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle),
-                                  child: IconButton(
-                                    onPressed: () => removeProduct(),
-                                    icon: Icon(
-                                      Icons.remove,
-                                      size: 18,
-                                    ),
-                                  ),
-                                ),
-
-                                // amount of item
-                                Text(
-                                  "$amountProduct",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold),
-                                ),
-
-                                // Buttom add item
-                                Container(
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      shape: BoxShape.circle),
-                                  child: IconButton(
-                                    onPressed: () => addProduct(),
-                                    icon: Icon(
-                                      Icons.add,
-                                      size: 18,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          // Price
-                          Container(
-                            child: Row(
+                            Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "\$ ",
+                                  "\$",
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
+                                SizedBox(
+                                  width: 2,
+                                ),
                                 Text(
-                                  "${widget.price}",
+                                  "$totalAmount",
                                   style: TextStyle(
-                                    fontSize: 24,
+                                    fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    )
-                  ],
-                ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      DottedDashedLine(
+                        height: 0,
+                        width: double.infinity,
+                        axis: Axis.horizontal,
+                        dashColor: fontGrayColor,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 60,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStatePropertyAll(blueColor),
+                            foregroundColor:
+                                WidgetStatePropertyAll(Colors.white),
+                          ),
+                          child: Text(
+                            "Checkout",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
