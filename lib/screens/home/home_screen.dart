@@ -1,4 +1,5 @@
 import 'package:ecommerce_final_project/models/favorite.dart';
+import 'package:ecommerce_final_project/screens/favorite_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
@@ -39,16 +40,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   late Function(Item) onFavoriteToggle;
 
+  List<Item> favoriteList = [];
+
   Favorite favoriteData = Favorite();
 
   void toggleFavorite(Item item) {
-    print(favoriteData.itemsFavorite.length);
     setState(() {
       if (favoriteData.itemsFavorite.contains(item)) {
         favoriteData.removeItemFavorite(item);
+        favoriteList.remove(item);
       } else {
+        favoriteList.add(item);
         favoriteData.addItemFavorite(item);
       }
+      print(favoriteList.length);
     });
   }
 
@@ -59,7 +64,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
-
           // Carousel Slidder
           FlutterCarousel(
             options: CarouselOptions(
@@ -109,7 +113,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return FavoriteScreen(
+                        listFavorite: favoriteList,
+                      );
+                    },
+                  ));
+                },
                 child: Text(
                   "see all",
                   style: TextStyle(
@@ -149,8 +161,6 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
           ),
-
-          
         ],
       ),
     );
