@@ -1,13 +1,11 @@
 import 'package:ecommerce_final_project/components/product_tile.dart';
-// import 'package:ecommerce_final_project/models/favorite.dart';
+import 'package:ecommerce_final_project/models/favorite.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../models/item.dart';
 
 class FavoriteScreen extends StatefulWidget {
-  final List<Item> listFavorite;
-
-  FavoriteScreen({required this.listFavorite});
+  FavoriteScreen({super.key});
 
   @override
   _FavoriteScreenState createState() => _FavoriteScreenState();
@@ -18,12 +16,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredItems = widget.listFavorite.where((item) {
-      return item.titleProduct
-              .toLowerCase()
-              .contains(searchQuery.toLowerCase()) ||
-          item.brandProduct.toLowerCase().contains(searchQuery.toLowerCase());
-    }).toList();
+    final favoritelist = context.watch<Favorite>().favoriteList;
 
     return Scaffold(
       appBar: AppBar(
@@ -49,12 +42,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: (filteredItems.length / 2).ceil(),
+              itemCount: favoritelist.length,
               itemBuilder: (context, index) {
-                final item1 = filteredItems[index * 2];
-                final item2 = index * 2 + 1 < filteredItems.length
-                    ? filteredItems[index * 2 + 1]
-                    : null;
+                final item = favoritelist[index];
 
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -62,37 +52,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                     children: [
                       Expanded(
                         child: ProductTile(
-                          titleProduct: item1.titleProduct,
-                          brandProduct: item1.brandProduct,
-                          price: item1.price,
-                          imagePath: item1.imagePath,
-                          isFavorite: true,
-                          onChangeFavorite: () {
-                            setState(() {
-                              widget.listFavorite.remove(item1);
-                            });
-                          },
+                          item: item,
                         ),
                       ),
                       SizedBox(width: 16),
-                      item2 != null
-                          ? Expanded(
-                              child: ProductTile(
-                                titleProduct: item2.titleProduct,
-                                brandProduct: item2.brandProduct,
-                                price: item2.price,
-                                imagePath: item2.imagePath,
-                                isFavorite: true,
-                                onChangeFavorite: () {
-                                  setState(() {
-                                    widget.listFavorite.remove(item2);
-                                  });
-                                },
-                              ),
-                            )
-                          : Expanded(
-                              child:
-                                  Container()), // Placeholder for empty space
+                      // Placeholder for empty space
                     ],
                   ),
                 );

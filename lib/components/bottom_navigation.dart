@@ -44,7 +44,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
         ),
         PersistentTabConfig(
           screen: FavoriteScreen(
-            listFavorite: [],
           ),
           item: ItemConfig(
             icon: Icon(Icons.favorite_border_outlined),

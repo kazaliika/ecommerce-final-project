@@ -40,6 +40,7 @@ dependencies:
   flutter_carousel_widget: ^2.2.0
   flutter_native_splash: ^2.4.0
   dotted_dashed_line: ^0.0.3
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

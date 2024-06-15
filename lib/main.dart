@@ -1,10 +1,21 @@
+import 'package:ecommerce_final_project/models/favorite.dart';
+import 'package:ecommerce_final_project/models/shop.dart';
 import 'package:ecommerce_final_project/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => Shop()),
+        ChangeNotifierProvider(create: (context) => Favorite()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 // whenever your initialization is completed, remove the splash screen:
