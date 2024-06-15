@@ -4,5 +4,9 @@ class Item {
   final double price;
   final String imagePath;
 
-  Item(this.titleProduct, this.brandProduct, this.price, this.imagePath);
+  Item(
+      {required this.titleProduct,
+      required this.brandProduct,
+      required this.price,
+      required this.imagePath});
 }

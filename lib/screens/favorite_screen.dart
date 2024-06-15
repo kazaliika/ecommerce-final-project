@@ -1,13 +1,12 @@
 import 'package:ecommerce_final_project/components/product_tile.dart';
-// import 'package:ecommerce_final_project/models/favorite.dart';
+import 'package:ecommerce_final_project/models/favorite.dart';
+import 'package:ecommerce_final_project/screens/cart_screen.dart';
+import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
-
-import '../models/item.dart';
+import 'package:provider/provider.dart';
 
 class FavoriteScreen extends StatefulWidget {
-  final List<Item> listFavorite;
-
-  FavoriteScreen({required this.listFavorite});
+  FavoriteScreen({super.key});
 
   @override
   _FavoriteScreenState createState() => _FavoriteScreenState();
@@ -18,22 +17,45 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final filteredItems = widget.listFavorite.where((item) {
-      return item.titleProduct
-              .toLowerCase()
-              .contains(searchQuery.toLowerCase()) ||
-          item.brandProduct.toLowerCase().contains(searchQuery.toLowerCase());
-    }).toList();
+    final favoritelist = context.watch<Favorite>().favoriteList;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Favorite Items'),
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        toolbarHeight: 120,
         centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+        title: Text(
+          "Detail Product",
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) {
+                    return CartScreen();
+                  },
+                ),
+              );
+            },
+            icon: Padding(
+              padding: const EdgeInsets.only(right: 15),
+              child: Icon(
+                Icons.shopping_bag_outlined,
+              ),
+            ),
+          ),
+        ],
+        bottom: PreferredSize(
+          preferredSize: Size(double.infinity, 50),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
             child: TextField(
               onChanged: (value) {
                 setState(() {
@@ -42,64 +64,53 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               },
               decoration: InputDecoration(
                 hintText: 'Search...',
-                border: OutlineInputBorder(),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: blueColor, width: 2),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: fontGrayColor),
+                ),
                 prefixIcon: Icon(Icons.search),
               ),
             ),
           ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: (filteredItems.length / 2).ceil(),
-              itemBuilder: (context, index) {
-                final item1 = filteredItems[index * 2];
-                final item2 = index * 2 + 1 < filteredItems.length
-                    ? filteredItems[index * 2 + 1]
-                    : null;
-
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ProductTile(
-                          titleProduct: item1.titleProduct,
-                          brandProduct: item1.brandProduct,
-                          price: item1.price,
-                          imagePath: item1.imagePath,
-                          isFavorite: true,
-                          onChangeFavorite: () {
-                            setState(() {
-                              widget.listFavorite.remove(item1);
-                            });
-                          },
-                        ),
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(25),
+        child: Column(
+          children: [
+            Expanded(
+              child: favoritelist.length > 0
+                  ? GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20,
+                        childAspectRatio: 9 /
+                            16, // Sesuaikan dengan rasio aspek yang diinginkan
                       ),
-                      SizedBox(width: 16),
-                      item2 != null
-                          ? Expanded(
-                              child: ProductTile(
-                                titleProduct: item2.titleProduct,
-                                brandProduct: item2.brandProduct,
-                                price: item2.price,
-                                imagePath: item2.imagePath,
-                                isFavorite: true,
-                                onChangeFavorite: () {
-                                  setState(() {
-                                    widget.listFavorite.remove(item2);
-                                  });
-                                },
-                              ),
-                            )
-                          : Expanded(
-                              child:
-                                  Container()), // Placeholder for empty space
-                    ],
-                  ),
-                );
-              },
+                      itemCount: favoritelist.length,
+                      itemBuilder: (context, index) {
+                        final item = favoritelist[index];
+
+                        return ProductTile(
+                          item: item,
+                        );
+                      },
+                    )
+                  : Center(
+                      child: Text(
+                        "You don't have a favorite item, please add your favorite item.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 14, color: fontGrayColor),
+                      ),
+                    ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
