@@ -129,7 +129,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
-                          return LoginScreen();
+                          return RegisterScreen();
                         },
                       ),
                     );

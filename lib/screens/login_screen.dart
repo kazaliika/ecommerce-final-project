@@ -1,7 +1,10 @@
 import 'package:ecommerce_final_project/components/bottom_navigation.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/widgets.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,7 +14,16 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   bool _isObscure = true;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,19 +53,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 16),
                 TextField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                     labelText: 'Email or Phone Number',
                     prefixIcon: Icon(Icons.email_outlined),
                     fillColor: Colors.grey.shade100,
                     filled: true,
-                    enabledBorder: InputBorder.none, // Menghilangkan border outline saat enabled
-                    contentPadding: EdgeInsets.symmetric(
-                        vertical: 15,
-                        horizontal: 10),
+                    enabledBorder: InputBorder
+                        .none, // Menghilangkan border outline saat enabled
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                   ),
                 ),
                 SizedBox(height: 16),
                 TextField(
+                  controller: _passwordController,
                   obscureText: _isObscure,
                   decoration: InputDecoration(
                     labelText: 'Password',
@@ -72,10 +86,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     fillColor: Colors.grey.shade100,
                     filled: true,
-                    enabledBorder: InputBorder.none, // Menghilangkan border outline saat enabled
-                    contentPadding: EdgeInsets.symmetric(
-                        vertical: 15,
-                        horizontal: 10),
+                    enabledBorder: InputBorder
+                        .none, // Menghilangkan border outline saat enabled
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                   ),
                 ),
                 SizedBox(height: 8),

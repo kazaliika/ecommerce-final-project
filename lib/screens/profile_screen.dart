@@ -35,8 +35,10 @@ class ProfileField extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 16),
           decoration: BoxDecoration(
-            color: Colors.grey.shade100,
+            color: Colors.white,
             borderRadius: BorderRadius.circular(15),
+            border: Border.all(
+                color: Colors.grey.shade200, width: 1),
           ),
           child: Row(
             children: iconPosition == IconPosition.leading
@@ -124,7 +126,8 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage: AssetImage('assets/images/profile-picture.jpg'),
+                      backgroundImage:
+                          AssetImage('assets/images/profile-picture.jpg'),
                     ),
                     SizedBox(height: 20),
                     ProfileField(
@@ -141,7 +144,8 @@ class ProfileScreen extends StatelessWidget {
                     SizedBox(height: 20),
                     ProfileField(
                       label: 'Account Linked With',
-                      trailingIcon: Image.asset('assets/images/google.png', height: 24),
+                      trailingIcon:
+                          Image.asset('assets/images/google.png', height: 24),
                       text: 'Google',
                       icon: Icons.link,
                       iconPosition: IconPosition.trailing,
@@ -151,7 +155,8 @@ class ProfileScreen extends StatelessWidget {
                       onPressed: () {},
                       child: Text('Save Changes'),
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 23, horizontal: 70),
+                        padding:
+                            EdgeInsets.symmetric(vertical: 23, horizontal: 70),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),

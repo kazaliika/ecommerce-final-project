@@ -1,6 +1,6 @@
-import 'dart:math';
+// import 'dart:math';
 
-import 'package:dotted_dashed_line/dotted_dashed_line.dart';
+// import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -179,9 +179,15 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   (_bottomPositionContainer == 0 && data.length - 1 == index)
                       ? Container(
-                        padding: EdgeInsets.only(top: 10, bottom: 230),
-                        child: Text('End of data', style: TextStyle(fontSize: 14, color: fontGrayColor,),),
-                      )
+                          padding: EdgeInsets.only(top: 10, bottom: 230),
+                          child: Text(
+                            'End of data',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: fontGrayColor,
+                            ),
+                          ),
+                        )
                       : Container(),
                 ],
               );
@@ -268,15 +274,15 @@ class _CartScreenState extends State<CartScreen> {
                       SizedBox(
                         height: 20,
                       ),
-                      DottedDashedLine(
-                        height: 0,
-                        width: double.infinity,
-                        axis: Axis.horizontal,
-                        dashColor: fontGrayColor,
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
+                      // DottedDashedLine(
+                      //   height: 0,
+                      //   width: double.infinity,
+                      //   axis: Axis.horizontal,
+                      //   dashColor: fontGrayColor,
+                      // ),
+                      // SizedBox(
+                      //   height: 20,
+                      // ),
                       Container(
                         width: double.infinity,
                         height: 60,
