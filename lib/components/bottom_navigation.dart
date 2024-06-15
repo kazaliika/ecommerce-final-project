@@ -43,7 +43,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
           ),
         ),
         PersistentTabConfig(
-          screen: FavoriteScreen(),
+          screen: FavoriteScreen(
+            listFavorite: [],
+          ),
           item: ItemConfig(
             icon: Icon(Icons.favorite_border_outlined),
             title: "Favorite",
@@ -60,11 +62,14 @@ class _BottomNavigationState extends State<BottomNavigation> {
       navBarBuilder: (navBarConfig) => Style1BottomNavBar(
         navBarConfig: navBarConfig,
         navBarDecoration: NavBarDecoration(
-          padding: EdgeInsets.only(top: 13, bottom: 15),
-          boxShadow: [
-            BoxShadow(color: Colors.black26, offset: Offset(0, -1), blurRadius: 2, )
-          ]
-        ),
+            padding: EdgeInsets.only(top: 13, bottom: 15),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                offset: Offset(0, -1),
+                blurRadius: 2,
+              )
+            ]),
       ),
     );
   }

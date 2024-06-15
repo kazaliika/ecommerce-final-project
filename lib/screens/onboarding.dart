@@ -1,3 +1,4 @@
+// import 'package:ecommerce_final_project/components/bottom_navigation.dart';
 import 'package:ecommerce_final_project/screens/login_screen.dart';
 import 'package:ecommerce_final_project/screens/register_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
@@ -44,7 +45,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             child: PageView.builder(
                 controller: pageController,
                 onPageChanged: (v) {
-                  print(v.toString());
                   setState(() {
                     halamanSekarang = v;
                   });
