@@ -1,4 +1,4 @@
-// import 'package:ecommerce_final_project/screens/home/detail_product_screen.dart';
+import 'package:ecommerce_final_project/screens/detail_product_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 // import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
