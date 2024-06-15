@@ -1,12 +1,9 @@
-import 'package:ecommerce_final_project/models/favorite.dart';
-import 'package:ecommerce_final_project/screens/favorite_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/product_tile.dart';
-import '../../models/item.dart';
 import '../../models/shop.dart';
 
 class HomeScreen extends StatefulWidget {

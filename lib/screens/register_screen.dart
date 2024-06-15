@@ -1,11 +1,6 @@
 import 'package:ecommerce_final_project/auth/firebase_auth_services.dart';
-import 'package:ecommerce_final_project/screens/onboarding.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-
-// import '../components/bottom_navigation.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
