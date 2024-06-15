@@ -1,3 +1,4 @@
+import 'package:ecommerce_final_project/screens/login_screen.dart';
 import 'package:ecommerce_final_project/screens/register_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -153,7 +154,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RegisterScreen(),
+                        builder: (context) => const LoginScreen(),
                       ),
                     );
                   },
