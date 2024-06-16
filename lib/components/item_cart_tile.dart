@@ -1,122 +1,39 @@
+import 'package:ecommerce_final_project/components/confirm_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../utils/colors.dart';
+import '../models/item.dart';
+import '../models/shop.dart';
+import '../utils/colors.dart';
 
 class CartTile extends StatefulWidget {
   const CartTile({
     super.key,
-    required this.imgPath,
-    required this.name,
-    required this.variant,
+    required this.item,
     required this.count,
-    required this.price,
     required this.onChangedCheckbox,
-    required this.deletedItem,
+    required this.removeItem,
+    required this.addItem,
   });
 
-  final String imgPath;
-  final String name;
-  final String variant;
+  final Item item;
   final int count;
-  final double price;
   final Function(bool?)? onChangedCheckbox;
-  final VoidCallback deletedItem;
+  final VoidCallback removeItem;
+  final VoidCallback addItem;
 
   @override
   State<CartTile> createState() => _CartTileState();
 }
 
 class _CartTileState extends State<CartTile> {
-  late int amountProduct;
   late bool isChecked;
-  
+
   @override
   void initState() {
     super.initState();
-    amountProduct = widget.count > 0 ? widget.count : 1;
     isChecked = false;
   }
-
-  void addProduct() {
-    setState(() {
-      amountProduct++;
-    });
-  }
-
-  void removeProduct() {
-    if (amountProduct == 1) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return Dialog(
-            child: Container(
-              padding: EdgeInsets.all(25),
-              height: 200,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  // Text Alert
-                  Text(
-                    "This item will be deleted, are you sure?",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-
-                  // Row of button
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      // Button Cancel
-                      ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(Colors.redAccent),
-                            foregroundColor:
-                                WidgetStatePropertyAll(Colors.white)),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text("Cancel"),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-
-                      // Button Accept
-                      ElevatedButton(
-                        style: ButtonStyle(
-                          shape: WidgetStatePropertyAll(
-                            RoundedRectangleBorder(
-                                side: BorderSide(color: fontGrayColor),
-                                borderRadius: BorderRadius.circular(30)),
-                          ),
-                          backgroundColor: WidgetStatePropertyAll(Colors.white),
-                          foregroundColor: WidgetStatePropertyAll(Colors.black),
-                        ),
-                        onPressed: widget.deletedItem,
-                        child: Text("yes, I'm sure"),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            backgroundColor: Colors.white,
-          );
-        },
-      );
-    } else {
-      setState(() {
-        amountProduct--;
-      });
-    }
-  }
-
 
   void toggleCheckbox(bool? value) {
     setState(() {
@@ -132,7 +49,6 @@ class _CartTileState extends State<CartTile> {
       child: ListTile(
         title: Row(
           children: [
-
             // CheckBox
             Checkbox(
               value: isChecked,
@@ -149,7 +65,7 @@ class _CartTileState extends State<CartTile> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     image: DecorationImage(
-                      image: NetworkImage(widget.imgPath),
+                      image: NetworkImage(widget.item.imagePath),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -168,7 +84,7 @@ class _CartTileState extends State<CartTile> {
                   children: [
                     // Title
                     Text(
-                      widget.name,
+                      widget.item.titleProduct,
                       maxLines: 2,
                       softWrap: true, // Ensure text wraps to next line
                       style: TextStyle(
@@ -187,7 +103,7 @@ class _CartTileState extends State<CartTile> {
                           ),
                         ),
                         Text(
-                          widget.variant,
+                          widget.item.brandProduct,
                           style: TextStyle(
                             fontSize: 12,
                           ),
@@ -221,7 +137,7 @@ class _CartTileState extends State<CartTile> {
                                       color: Colors.white,
                                       shape: BoxShape.circle),
                                   child: IconButton(
-                                    onPressed: () => removeProduct(),
+                                    onPressed: () => widget.removeItem(),
                                     icon: Icon(
                                       Icons.remove,
                                       size: 18,
@@ -231,7 +147,7 @@ class _CartTileState extends State<CartTile> {
 
                                 // amount of item
                                 Text(
-                                  "$amountProduct",
+                                  "${widget.count}",
                                   style: TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold),
@@ -244,7 +160,7 @@ class _CartTileState extends State<CartTile> {
                                       color: Colors.white,
                                       shape: BoxShape.circle),
                                   child: IconButton(
-                                    onPressed: () => addProduct(),
+                                    onPressed: () => widget.addItem(),
                                     icon: Icon(
                                       Icons.add,
                                       size: 18,
@@ -268,7 +184,7 @@ class _CartTileState extends State<CartTile> {
                                   ),
                                 ),
                                 Text(
-                                  "${widget.price}",
+                                  "${widget.item.price}",
                                   style: TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,

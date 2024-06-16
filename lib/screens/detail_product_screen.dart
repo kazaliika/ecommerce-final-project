@@ -1,3 +1,5 @@
+import 'package:ecommerce_final_project/components/confirm_dialog.dart';
+import 'package:ecommerce_final_project/models/shop.dart';
 import 'package:ecommerce_final_project/screens/cart_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +19,24 @@ class DetailProductScreen extends StatefulWidget {
 
 class _DetailProductScreenState extends State<DetailProductScreen> {
   int selectedVariant = 0;
+
+  // add item to cart
+  // void addItemToCart(BuildContext context, Item item) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return ConfirmDialog(
+  //         title: "This item will be in your cart, are you sure?",
+  //         onCancel: () => Navigator.of(context).pop(),
+  //         onAccept: () {
+  //           context.read<Shop>().addToCart(item);
+  //           Navigator.of(context).pop();
+  //         },
+  //       );
+  //     },
+  //   );
+  //   print(context.watch<Shop>().userCart.length);
+  // }
 
   // add to favorite
   void addToFavoriteList(BuildContext context) {
@@ -40,6 +60,25 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
   @override
   Widget build(BuildContext context) {
     bool isFavorite = context.watch<Favorite>().isFavorite(widget.item);
+
+    // add item to cart
+    void addItemToCart(Item item) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return ConfirmDialog(
+            title: "This item will be in your cart, are you sure?",
+            onCancel: () => Navigator.of(context).pop(),
+            onAccept: () {
+              context.read<Shop>().addToCart(item);
+              Navigator.of(context).pop();
+              // print the length of the cart after adding the item
+              print(context.read<Shop>().userCart.length);
+            },
+          );
+        },
+      );
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -199,15 +238,17 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: isFavorite ? Colors.redAccent : Colors.transparent,
+                              color: isFavorite
+                                  ? Colors.redAccent
+                                  : Colors.transparent,
                               border: Border.all(
-                                color: isFavorite ? Colors.white : fontGrayColor,
+                                color:
+                                    isFavorite ? Colors.white : fontGrayColor,
                                 width: 2,
                               ),
                             ),
                             child: Icon(
-                              color:
-                                  isFavorite ? Colors.white : fontGrayColor,
+                              color: isFavorite ? Colors.white : fontGrayColor,
                               isFavorite
                                   ? Icons.favorite
                                   : Icons.favorite_border_outlined,
@@ -421,7 +462,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
 
                   // Add to Cart Button
                   ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => addItemToCart(widget.item),
                       style: ButtonStyle(
                         padding: WidgetStatePropertyAll(
                           EdgeInsets.symmetric(
