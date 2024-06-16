@@ -1,3 +1,4 @@
+// lib/screens/settings/favorite_screen.dart
 import 'package:ecommerce_final_project/components/product_tile.dart';
 import 'package:ecommerce_final_project/models/favorite.dart';
 import 'package:ecommerce_final_project/screens/cart_screen.dart';
@@ -19,6 +20,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   Widget build(BuildContext context) {
     final favoritelist = context.watch<Favorite>().favoriteList;
 
+    // Filter favorite list based on the search query
+    final filteredList = favoritelist.where((item) {
+      return item.titleProduct
+          .toLowerCase()
+          .contains(searchQuery.toLowerCase());
+    }).toList();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -27,7 +35,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         toolbarHeight: 120,
         centerTitle: true,
         title: Text(
-          "Detail Product",
+          "Favorite Products",
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -83,7 +91,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         child: Column(
           children: [
             Expanded(
-              child: favoritelist.length > 0
+              child: filteredList.length > 0
                   ? GridView.builder(
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -92,9 +100,9 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                         childAspectRatio: 9 /
                             16, // Sesuaikan dengan rasio aspek yang diinginkan
                       ),
-                      itemCount: favoritelist.length,
+                      itemCount: filteredList.length,
                       itemBuilder: (context, index) {
-                        final item = favoritelist[index];
+                        final item = filteredList[index];
 
                         return ProductTile(
                           item: item,

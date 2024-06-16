@@ -2,6 +2,8 @@ import 'package:ecommerce_final_project/components/bottom_navigation.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 
+import 'home/layout_home.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
