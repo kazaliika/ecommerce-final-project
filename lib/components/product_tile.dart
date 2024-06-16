@@ -21,7 +21,7 @@ class ProductTile extends StatefulWidget {
 
 class _ProductTileState extends State<ProductTile> {
 
-   // add to favorite
+  // add to favorite
   void addToFavoriteList(BuildContext context) {
     context.read<Favorite>().addItemFavorite(widget.item);
   }
@@ -48,7 +48,7 @@ class _ProductTileState extends State<ProductTile> {
        onTap: () {
         pushScreen(
           context,
-          screen: DetailProductScreen(),
+          screen: DetailProductScreen(item: widget.item,),
         );
       },
       child: Container(

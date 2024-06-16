@@ -1,24 +1,46 @@
 import 'package:ecommerce_final_project/screens/cart_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+
+import '../models/favorite.dart';
+import '../models/item.dart';
 
 class DetailProductScreen extends StatefulWidget {
-  const DetailProductScreen({super.key});
+  const DetailProductScreen({super.key, required this.item});
+
+  final Item item;
 
   @override
   State<DetailProductScreen> createState() => _DetailProductScreenState();
 }
 
 class _DetailProductScreenState extends State<DetailProductScreen> {
-  String imgPath =
-      "https://images.unsplash.com/photo-1603252109612-24fa03d145c8?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-
   int selectedVariant = 0;
+
+  // add to favorite
+  void addToFavoriteList(BuildContext context) {
+    context.read<Favorite>().addItemFavorite(widget.item);
+  }
+
+  // remove from favorite
+  void removeFromFavoriteList(BuildContext context) {
+    context.read<Favorite>().removeItemFavorite(widget.item);
+  }
+
+  void toggleFavorite() {
+    if (context.read<Favorite>().isFavorite(widget.item)) {
+      removeFromFavoriteList(context);
+    } else {
+      addToFavoriteList(context);
+    }
+    print(context.read<Favorite>().favoriteList.length);
+  }
 
   @override
   Widget build(BuildContext context) {
+    bool isFavorite = context.watch<Favorite>().isFavorite(widget.item);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -29,7 +51,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
             decoration: BoxDecoration(
               image: DecorationImage(
                   image: NetworkImage(
-                    imgPath,
+                    widget.item.imagePath,
                   ),
                   fit: BoxFit.cover),
             ),
@@ -123,7 +145,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                             Padding(
                               padding: const EdgeInsets.only(left: 5),
                               child: Text(
-                                "T-Shirt Mas Ganteng",
+                                widget.item.titleProduct,
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -170,16 +192,25 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                         // Favorite Button
                         IconButton(
                           onPressed: () {
+                            toggleFavorite();
                             print("Favorite");
                           },
                           icon: Container(
                             padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: grayColor,
+                              color: isFavorite ? Colors.redAccent : Colors.transparent,
+                              border: Border.all(
+                                color: isFavorite ? Colors.white : fontGrayColor,
+                                width: 2,
+                              ),
                             ),
                             child: Icon(
-                              Icons.favorite_border_outlined,
+                              color:
+                                  isFavorite ? Colors.white : fontGrayColor,
+                              isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border_outlined,
                             ),
                           ),
                         ),
@@ -193,24 +224,24 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                     Expanded(
                       child: ListView(
                         children: [
-                          // List Variant Product
-                          Text(
-                            "Variation",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          VariantSelect(
-                            imgPath: imgPath,
-                            selectedVarientIndex: selectedVariant,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
+                          // // List Variant Product
+                          // Text(
+                          //   "Variation",
+                          //   style: TextStyle(
+                          //     fontSize: 16,
+                          //     fontWeight: FontWeight.bold,
+                          //   ),
+                          // ),
+                          // SizedBox(
+                          //   height: 5,
+                          // ),
+                          // VariantSelect(
+                          //   imgPath: imgPath,
+                          //   selectedVarientIndex: selectedVariant,
+                          // ),
+                          // SizedBox(
+                          //   height: 20,
+                          // ),
 
                           // Description Product
                           Text(
@@ -248,7 +279,8 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
-                                        image: NetworkImage(imgPath),
+                                        image:
+                                            NetworkImage(widget.item.imagePath),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -375,7 +407,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                             width: 5,
                           ),
                           Text(
-                            "24.00",
+                            "${widget.item.price}",
                             style: TextStyle(
                                 fontSize: 24, fontWeight: FontWeight.bold),
                           ),
