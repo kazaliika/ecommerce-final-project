@@ -1,3 +1,4 @@
+import 'package:ecommerce_final_project/screens/address_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
-        toolbarHeight: 120,
+        toolbarHeight: 100,
         leading: Padding(
           padding: const EdgeInsets.only(left: 15, top: 40, bottom: 50),
           child: IconButton(
@@ -27,16 +28,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
         ),
         centerTitle: true,
-        title: Text(
-          "Payment",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+        title: Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: Text(
+            "Payment",
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 25, right: 25, bottom: 25),
+        padding:  EdgeInsets.only(left: 25, right: 25, bottom: 25),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,9 +57,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return AddressScreen();
+                          },
+                        ),
+                      );
+                    },
                     style: ButtonStyle(
-                        foregroundColor: WidgetStatePropertyAll(blueColor)),
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      foregroundColor: WidgetStatePropertyAll(blueColor),
+                    ),
                     child: Text("Edit"),
                   ),
                 ],
@@ -136,7 +154,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                 borderRadius: BorderRadius.circular(12),
                                 image: DecorationImage(
                                   image: NetworkImage(
-                                      "https://picsum.photos/id/229/200/300"),
+                                    "https://picsum.photos/id/229/200/300",
+                                  ),
                                   fit: BoxFit.cover,
                                 ),
                               ),
