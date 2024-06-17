@@ -3,6 +3,7 @@
 // import 'package:dotted_dashed_line/dotted_dashed_line.dart';
 import 'package:ecommerce_final_project/models/item.dart';
 import 'package:ecommerce_final_project/models/shop.dart';
+import 'package:ecommerce_final_project/screens/payment_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,11 +29,6 @@ class _CartScreenState extends State<CartScreen> {
 
     totalAmount = calculateTotal(checkedItems);
   }
-
-  // void deletedItem(Item item) {
-  //   checkedItems.remove(item);
-  //   context.read<Shop>().removeToCart(item);
-  // }
 
   void addItem(Item item) {
     setState(() {
@@ -295,7 +291,15 @@ class _CartScreenState extends State<CartScreen> {
                         width: double.infinity,
                         height: 60,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return PaymentScreen();
+                                },
+                              ),
+                            );
+                          },
                           style: ButtonStyle(
                             backgroundColor: WidgetStatePropertyAll(blueColor),
                             foregroundColor:
