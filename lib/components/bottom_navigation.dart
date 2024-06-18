@@ -7,7 +7,9 @@ import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import '../screens/home/layout_home.dart';
 
 class BottomNavigation extends StatefulWidget {
-  const BottomNavigation({super.key});
+  const BottomNavigation({super.key, this.index = 0});
+
+  final int? index;
 
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
@@ -19,7 +21,12 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   void initState() {
     super.initState();
-    _navigationController = PersistentTabController(initialIndex: 0);
+    if (widget.index != 0) {
+      _navigationController =
+          PersistentTabController(initialIndex: widget.index!);
+    } else {
+      _navigationController = PersistentTabController(initialIndex: 0);
+    }
   }
 
   @override
@@ -43,9 +50,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           ),
         ),
         PersistentTabConfig(
-          screen: FavoriteScreen(
-            listFavorite: [],
-          ),
+          screen: FavoriteScreen(),
           item: ItemConfig(
             icon: Icon(Icons.favorite_border_outlined),
             title: "Favorite",

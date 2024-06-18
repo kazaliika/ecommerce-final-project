@@ -3,12 +3,12 @@ import 'package:ecommerce_final_project/controller/firebase_auth_services.dart';
 import 'package:ecommerce_final_project/screens/home/layout_home.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
