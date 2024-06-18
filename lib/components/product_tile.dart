@@ -65,7 +65,7 @@ class _ProductTileState extends State<ProductTile> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       image: DecorationImage(
-                        image: NetworkImage(widget.item.imagePath),
+                        image: NetworkImage(widget.item.image ?? ""),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -95,7 +95,7 @@ class _ProductTileState extends State<ProductTile> {
       
             // Title Product
             Text(
-              widget.item.titleProduct,
+              widget.item.title ?? "",
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -107,13 +107,13 @@ class _ProductTileState extends State<ProductTile> {
             ),
       
             // Brand Product
-            Text(
-              widget.item.brandProduct,
-              style: TextStyle(
-                fontSize: 12,
-                color: fontGrayColor,
-              ),
-            ),
+            // Text(
+            //   widget.item.brandProduct,
+            //   style: TextStyle(
+            //     fontSize: 12,
+            //     color: fontGrayColor,
+            //   ),
+            // ),
       
             // Price Product
             Text(

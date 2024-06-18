@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:ecommerce_final_project/models/item.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
@@ -7,7 +9,7 @@ import '../../components/product_tile.dart';
 import '../../models/shop.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.tabController});
+  HomeScreen({super.key, required this.tabController});
 
   final TabController tabController;
 
@@ -15,7 +17,33 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+class _HomeScreenState extends State<HomeScreen> {
+  List<Item>? products;
+
+  Future<void> getData() async {
+    const String apiUrl = "https://fakestoreapi.com/products";
+    try {
+      Response response = await Dio().get(apiUrl);
+      if (response.data != null) {
+        setState(() {
+          products = (response.data as List)
+              .map((productJson) => Item.fromJson(productJson))
+              .toList();
+        });
+      } else {
+        throw Exception("Api response is null or in an unexpected format");
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
   final List<String> imgList = [
     'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
     'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
@@ -34,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     return SingleChildScrollView(
       child: Column(
         children: [
-          // Carousel Slidder
+          // Carousel Slider
           FlutterCarousel(
             options: CarouselOptions(
               height: 200,
@@ -83,9 +111,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               TextButton(
-                onPressed: () {
-                  
-                },
+                onPressed: () {},
                 child: Text(
                   "see all",
                   style: TextStyle(
@@ -99,26 +125,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
 
           // GridView Item
-          SizedBox(
-            height: 650,
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-                childAspectRatio:
-                    9 / 16, // Sesuaikan dengan rasio aspek yang diinginkan
-              ),
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final item = items[index];
-
-                return ProductTile(
-                  item: item,
-                );
-              },
-            ),
-          ),
+          products == null
+              ? Center(child: CircularProgressIndicator())
+              : SizedBox(
+                  height: 650,
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      childAspectRatio: 9 / 16,
+                    ),
+                    itemCount: products!.length,
+                    itemBuilder: (context, index) {
+                      final item = items[index];
+                      return ProductTile(
+                        item: item,
+                        );
+                    },
+                  ),
+                ),
         ],
       ),
     );

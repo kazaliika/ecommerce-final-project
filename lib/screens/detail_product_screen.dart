@@ -90,7 +90,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
             decoration: BoxDecoration(
               image: DecorationImage(
                   image: NetworkImage(
-                    widget.item.imagePath,
+                    widget.item.image??"",
                   ),
                   fit: BoxFit.cover),
             ),
@@ -184,7 +184,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                             Padding(
                               padding: const EdgeInsets.only(left: 5),
                               child: Text(
-                                widget.item.titleProduct,
+                                widget.item.title??"",
                                 style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
@@ -321,7 +321,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                         image:
-                                            NetworkImage(widget.item.imagePath),
+                                            NetworkImage(widget.item.image??""),
                                         fit: BoxFit.cover,
                                       ),
                                     ),

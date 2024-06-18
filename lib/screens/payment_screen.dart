@@ -34,7 +34,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       final item = data.key;
       final qty = data.value;
 
-      totalAmount += item.price * qty;
+      totalAmount += item.price! * qty;
     }
     return totalAmount;
   }
@@ -219,7 +219,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     borderRadius: BorderRadius.circular(12),
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                        "${item.imagePath}",
+                                        "${item.image}",
                                       ),
                                       fit: BoxFit.cover,
                                     ),
@@ -242,7 +242,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   children: [
                                     // name of product
                                     Text(
-                                      "${item.titleProduct}",
+                                      "${item.title}",
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
@@ -254,12 +254,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          "${item.brandProduct}",
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: fontGrayColor),
-                                        ),
+                                        
                                         Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,

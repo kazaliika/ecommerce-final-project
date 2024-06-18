@@ -16,10 +16,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  assert(() {
-    FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-    return true;
-  }());
+  // assert(() {
+  //   FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+  //   return true;
+  // }());
 
   runApp(
     MultiProvider(
