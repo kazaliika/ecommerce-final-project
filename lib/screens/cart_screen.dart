@@ -295,7 +295,18 @@ class _CartScreenState extends State<CartScreen> {
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {
-                                  return PaymentScreen();
+                                  Map<Item, int> itemCheckout = {};
+
+                                  for (var item in checkedItems) {
+                                    if (userCart.containsKey(item)) {
+                                      final dataUserCart = userCart[item];
+                                      itemCheckout[item] = dataUserCart!;
+                                    }
+                                  }
+
+                                  return PaymentScreen(
+                                    itemCheckout: itemCheckout,
+                                  );
                                 },
                               ),
                             );

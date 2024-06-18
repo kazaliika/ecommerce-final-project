@@ -1,5 +1,6 @@
 import 'package:ecommerce_final_project/models/favorite.dart';
 import 'package:ecommerce_final_project/models/shop.dart';
+import 'package:ecommerce_final_project/models/transaction_services.dart';
 import 'package:ecommerce_final_project/screens/splash_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,6 +26,7 @@ void main() async {
       providers: [
         ChangeNotifierProvider(create: (context) => Shop()),
         ChangeNotifierProvider(create: (context) => Favorite()),
+        ChangeNotifierProvider(create: (context) => TransactionServices()),
       ],
       child: const MyApp(),
     ),

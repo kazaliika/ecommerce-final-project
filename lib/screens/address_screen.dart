@@ -214,13 +214,7 @@ class _AddressScreenState extends State<AddressScreen> {
               ),
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return PaymentScreen();
-                      },
-                    ),
-                  );
+                  Navigator.of(context).pop();
                 },
                 style: ButtonStyle(
                   backgroundColor: WidgetStatePropertyAll(blueColor),
