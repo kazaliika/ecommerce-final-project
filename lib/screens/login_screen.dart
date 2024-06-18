@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   final _formkey = GlobalKey<FormState>();
 
-  userLogin() async {
+  Future<User?>Login() async {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);

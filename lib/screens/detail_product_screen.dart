@@ -99,7 +99,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
           // Gradient top for make image contrast with Appbar
           Container(
             height: 450,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
                   Colors.black54,

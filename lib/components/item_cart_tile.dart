@@ -1,9 +1,7 @@
 import 'package:ecommerce_final_project/components/confirm_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../models/item.dart';
-import '../models/shop.dart';
 import '../utils/colors.dart';
 
 class CartTile extends StatefulWidget {
