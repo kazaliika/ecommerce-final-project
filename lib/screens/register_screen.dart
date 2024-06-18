@@ -1,9 +1,12 @@
-import 'package:ecommerce_final_project/auth/firebase_auth_services.dart';
+import 'package:ecommerce_final_project/components/bottom_navigation.dart';
+import 'package:ecommerce_final_project/controller/firebase_auth_services.dart';
+import 'package:ecommerce_final_project/screens/home/home_screen.dart';
+import 'package:ecommerce_final_project/screens/home/layout_home.dart';
 import 'package:ecommerce_final_project/screens/onboarding.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:get/get.dart';
 
 // import '../components/bottom_navigation.dart';
 
@@ -15,17 +18,39 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final FirebaseAuthServices _auth = FirebaseAuthServices();
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  String email = "", password = "", name = "";
+  final namecontroller = TextEditingController(text: "");
+  final emailcontroller = TextEditingController(text: "");
+  final passwordcontroller = TextEditingController(text: "");
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
+  Future<void> signUp() async {
+    try {
+      if (emailcontroller.text.isEmpty || passwordcontroller.text.isEmpty) {
+        Get.snackbar("Error", "Email and Password cannot be empty",
+            snackPosition: SnackPosition.BOTTOM);
+        return;
+      }
+
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+        email: emailcontroller.text.trim(),
+        password: passwordcontroller.text.trim(),
+      );
+
+      if (userCredential.user != null) {
+        // If sign up is successful, navigate to the home page
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.of(context, rootNavigator: true)
+              .push(MaterialPageRoute(builder: (_) => LayoutHome()));
+        });
+      } else {
+        Get.snackbar("Error", "Failed to sign up",
+            snackPosition: SnackPosition.BOTTOM);
+      }
+    } catch (e) {
+      // Handle sign up errors here
+      Get.snackbar("Error", e.toString(), snackPosition: SnackPosition.BOTTOM);
+    }
   }
 
   @override
@@ -59,7 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 8),
                   TextField(
-                    controller: _usernameController,
+                    controller: namecontroller,
                     decoration: InputDecoration(
                         hintText: 'Create your username',
                         prefixIcon: Icon(Icons.person_2_outlined),
@@ -73,7 +98,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 8),
                   TextField(
-                    controller: _emailController,
+                    controller: emailcontroller,
                     decoration: const InputDecoration(
                         hintText: 'Enter your email or phone number',
                         prefixIcon: Icon(Icons.email_outlined),
@@ -89,8 +114,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const PasswordField(),
                   const SizedBox(height: 24),
                   ElevatedButton(
-                    onPressed: () {
-                      _signUp();
+                    onPressed: () async {
+                      await signUp();
+                      // Navigator.of(context).push(MaterialPageRoute(
+                      //   builder: (context) {
+                      //     return LayoutHome();
+                      //   },
+                      // ));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 10, 7, 154),
@@ -99,12 +129,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         borderRadius: BorderRadius.circular(80.0),
                       ),
                     ),
-                    child: GestureDetector(
-                      onTap: _signUp,
-                      child: const Text(
-                        'Create Account',
-                        style: TextStyle(color: Colors.white),
-                      ),
+                    child: const Text(
+                      'Create Account',
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                   const SizedBox(height: 24),
@@ -152,7 +179,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       //     builder: (BuildContext context) {
                       //       return BottomNavigation();
                       //     },
-                      //   ),
+                      // ),
                       // );
                     },
                     // icon: const Icon(Icons.login, color: Colors.blue),
@@ -176,38 +203,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       ),
     );
   }
-
-  void _signUp() async {
-    String username = _usernameController.text;
-    String email = _emailController.text;
-    String password = _passwordController.text;
-
-    User? user = await _auth.signUpWithEmailAndPassword(email, password);
-
-    if (user != null) {
-      print("User is successfully create");
-      Navigator.pushNamed(context, '/home');
-    } else {
-      print("Some error happend");
-    }
-  }
-
-//   Future<void> _loginWithFacebook() async {
-//     try {
-//       final LoginResult result = await FacebookAuth.instance.login();
-//       if (result.status == LoginStatus.success) {
-//         final AccessToken accessToken = result.accessToken!;
-//         print('Access Token: ${accessToken.token}');
-//         // Fetch user data
-//         final userData = await FacebookAuth.instance.getUserData();
-//         print('User Data: $userData');
-//       } else {
-//         print('Login failed: ${result.message}');
-//       }
-//     } catch (e) {
-//       print('Error during login: $e');
-//     }
-//   }
 }
 
 class PasswordField extends StatefulWidget {
@@ -218,24 +213,14 @@ class PasswordField extends StatefulWidget {
 }
 
 class _PasswordFieldState extends State<PasswordField> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+  final passwordCcontroller = TextEditingController();
 
   bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: _passwordController,
+      controller: passwordCcontroller,
       obscureText: _obscureText,
       decoration: InputDecoration(
           hintText: 'Create your password',

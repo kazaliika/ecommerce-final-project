@@ -1,10 +1,14 @@
 import 'package:ecommerce_final_project/components/bottom_navigation.dart';
+import 'package:ecommerce_final_project/controller/firebase_auth_services.dart';
+import 'package:ecommerce_final_project/screens/home/layout_home.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,15 +18,36 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  String email = "", password = "";
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   bool _isObscure = true;
 
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
+  final _formkey = GlobalKey<FormState>();
+
+  userLogin() async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => BottomNavigation()));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Colors.orangeAccent,
+            content: Text(
+              "No User Found for that Email",
+              style: TextStyle(fontSize: 18.0),
+            )));
+      } else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: Colors.orangeAccent,
+            content: Text(
+              "Wrong Password Provided by User",
+              style: TextStyle(fontSize: 18.0),
+            )));
+      }
+    }
   }
 
   @override
@@ -53,7 +78,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 16),
                 TextField(
-                  controller: _emailController,
+                  controller: emailController,
                   decoration: InputDecoration(
                     labelText: 'Email or Phone Number',
                     prefixIcon: Icon(Icons.email_outlined),
@@ -67,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 16),
                 TextField(
-                  controller: _passwordController,
+                  controller: passwordController,
                   obscureText: _isObscure,
                   decoration: InputDecoration(
                     labelText: 'Password',
@@ -105,14 +130,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return BottomNavigation();
-                        },
-                      ),
-                    );
                   },
+                  // onPressed: () {
+                  //   Navigator.of(context).push(
+                  //     MaterialPageRoute(
+                  //       builder: (BuildContext context) {
+                  //         return BottomNavigation();
+                  //       },
+                  //     ),
+                  //   );
+                  // },
                   child: Text('Sign In'),
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 16),
