@@ -39,7 +39,7 @@ class Shop extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeFromCart(Item item) {
+  void removeOneFromCart(Item item) {
     if (_userCart.containsKey(item)) {
       if (_userCart[item]! > 1) {
         _userCart[item] = _userCart[item]! - 1;
@@ -47,6 +47,11 @@ class Shop extends ChangeNotifier {
         _userCart.remove(item);
       }
     }
+    notifyListeners();
+  }
+
+  void removeFromCart(Item item) {
+    _userCart.remove(item);
     notifyListeners();
   }
 }

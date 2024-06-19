@@ -42,7 +42,7 @@ class _CartScreenState extends State<CartScreen> {
     final quantityItem = context.read<Shop>().userCart[item];
     setState(() {
       if (quantityItem! > 1) {
-        context.read<Shop>().removeFromCart(item);
+        context.read<Shop>().removeOneFromCart(item);
       } else {
         showDialog(
           context: context,
@@ -51,7 +51,7 @@ class _CartScreenState extends State<CartScreen> {
               title: "This item will be deleted, are you sure?",
               onCancel: () => Navigator.of(context).pop(),
               onAccept: () {
-                context.read<Shop>().removeFromCart(item);
+                context.read<Shop>().removeOneFromCart(item);
                 checkedItems.remove(item);
                 Navigator.of(context).pop();
                 outPaymentContainer();
@@ -264,7 +264,7 @@ class _CartScreenState extends State<CartScreen> {
                                   width: 2,
                                 ),
                                 Text(
-                                  "$totalAmount",
+                                  "${totalAmount.toStringAsFixed(2)}",
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
