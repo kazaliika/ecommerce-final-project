@@ -1,4 +1,5 @@
 import 'package:ecommerce_final_project/components/bottom_navigation.dart';
+import 'package:ecommerce_final_project/models/shop.dart';
 import 'package:ecommerce_final_project/models/transaction_services.dart';
 import 'package:ecommerce_final_project/screens/address_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
@@ -55,18 +56,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
     });
   }
 
+  void checkoutItem(BuildContext context, Map<Item, int> items) {
+    for (int i = 0; i < items.length; i++) {
+      final data = items.entries.elementAt(i);
+      final item = data.key;
+      final qty = data.value;
+
+      context.read<Shop>().removeFromCart(item);
+      context.read<TransactionServices>().addItemtoOrderList(item, qty);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    void checkoutItem(Map<Item, int> items) {
-      for (int i = 0; i < items.length; i++) {
-        final data = items.entries.elementAt(i);
-        final item = data.key;
-        final qty = data.value;
-
-        context.read<TransactionServices>().addItemtoOrderList(item, qty);
-      }
-    }
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -254,7 +256,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        
                                         Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -337,7 +338,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               width: 2,
                             ),
                             Text(
-                              "$totalAmount",
+                              "${totalAmount.toStringAsFixed(2)}",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -356,8 +357,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     height: 60,
                     child: ElevatedButton(
                       onPressed: () {
-                        checkoutItem(widget.itemCheckout);
-                        int orderListLenght = Provider.of<TransactionServices>(context, listen: false).orderList.length;
+                        checkoutItem(context, widget.itemCheckout);
+                        int orderListLenght = Provider.of<TransactionServices>(
+                                context,
+                                listen: false)
+                            .orderList
+                            .length;
                         print("order list: ${orderListLenght}");
 
                         inPaymentContainer();

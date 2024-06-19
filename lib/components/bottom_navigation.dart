@@ -1,5 +1,6 @@
 import 'package:ecommerce_final_project/screens/cart_screen.dart';
 import 'package:ecommerce_final_project/screens/favorite_screen.dart';
+import 'package:ecommerce_final_project/screens/order/layout_order.dart';
 import 'package:ecommerce_final_project/screens/settings/setting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
@@ -43,7 +44,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           ),
         ),
         PersistentTabConfig(
-          screen: CartScreen(),
+          screen: LayoutOrder(),
           item: ItemConfig(
             icon: Icon(Icons.shopping_cart),
             title: "My Order",
