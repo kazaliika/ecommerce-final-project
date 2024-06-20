@@ -58,7 +58,7 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             ),
             Text(
-              'Kutuku',
+              'Kutubu',
               // textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
