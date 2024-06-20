@@ -1,11 +1,18 @@
 import 'package:ecommerce_final_project/components/bottom_navigation.dart';
+import 'package:ecommerce_final_project/models/shop.dart';
+import 'package:ecommerce_final_project/models/transaction_services.dart';
 import 'package:ecommerce_final_project/screens/address_screen.dart';
-import 'package:ecommerce_final_project/screens/home/layout_home.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../models/favorite.dart';
+import '../models/item.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key});
+  const PaymentScreen({super.key, required this.itemCheckout});
+
+  final Map<Item, int> itemCheckout;
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
@@ -13,6 +20,25 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   double _bottomPositionContainer = -500;
+  double totalAmount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    totalAmount = calculateTotal(widget.itemCheckout);
+  }
+
+  double calculateTotal(Map<Item, int> items) {
+    for (int i = 0; i < items.length; i++) {
+      final data = items.entries.elementAt(i);
+      final item = data.key;
+      final qty = data.value;
+
+      totalAmount += item.price! * qty;
+    }
+    return totalAmount;
+  }
 
   void inPaymentContainer() {
     Future.delayed(Duration(milliseconds: 100), () {
@@ -28,6 +54,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
         _bottomPositionContainer = -500; // Ubah posisi container setelah delay
       });
     });
+  }
+
+  void checkoutItem(BuildContext context, Map<Item, int> items) {
+    for (int i = 0; i < items.length; i++) {
+      final data = items.entries.elementAt(i);
+      final item = data.key;
+      final qty = data.value;
+
+      context.read<Shop>().removeFromCart(item);
+      context.read<TransactionServices>().addItemtoOrderList(item, qty);
+    }
   }
 
   @override
@@ -152,7 +189,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                   // Product
                   Text(
-                    "Products (1)",
+                    "Products (${widget.itemCheckout.length})",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -164,8 +201,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   ListView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
-                    itemCount: 2,
+                    itemCount: widget.itemCheckout.length,
                     itemBuilder: (context, index) {
+                      final data = widget.itemCheckout.entries.elementAt(index);
+                      final item = data.key;
+                      final qty = data.value;
+
                       return Container(
                         padding: EdgeInsets.only(bottom: 10),
                         child: Row(
@@ -180,7 +221,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                     borderRadius: BorderRadius.circular(12),
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                        "https://picsum.photos/id/229/200/300",
+                                        "${item.image}",
                                       ),
                                       fit: BoxFit.cover,
                                     ),
@@ -203,7 +244,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                   children: [
                                     // name of product
                                     Text(
-                                      "Bix Bag Limited Edition 229",
+                                      "${item.title}",
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
@@ -215,12 +256,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          "Samseng",
-                                          style: TextStyle(
-                                              fontSize: 12,
-                                              color: fontGrayColor),
-                                        ),
                                         Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -232,14 +267,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                               ),
                                             ),
                                             Text(
-                                              "22.00",
+                                              "${item.price}",
                                               style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                             Text(
-                                              " x 1",
+                                              " x $qty",
                                               style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold,
@@ -303,7 +338,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               width: 2,
                             ),
                             Text(
-                              "100.00",
+                              "${totalAmount.toStringAsFixed(2)}",
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -321,7 +356,17 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     width: double.infinity,
                     height: 60,
                     child: ElevatedButton(
-                      onPressed: () => inPaymentContainer(),
+                      onPressed: () {
+                        checkoutItem(context, widget.itemCheckout);
+                        int orderListLenght = Provider.of<TransactionServices>(
+                                context,
+                                listen: false)
+                            .orderList
+                            .length;
+                        print("order list: ${orderListLenght}");
+
+                        inPaymentContainer();
+                      },
                       style: ButtonStyle(
                         backgroundColor: WidgetStatePropertyAll(blueColor),
                         foregroundColor: WidgetStatePropertyAll(Colors.white),
@@ -329,7 +374,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       child: Text(
                         "Checkout",
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),

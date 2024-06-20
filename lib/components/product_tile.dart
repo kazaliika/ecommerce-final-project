@@ -1,6 +1,6 @@
 import 'package:ecommerce_final_project/models/item.dart';
 import 'package:ecommerce_final_project/screens/detail_product_screen.dart';
-import 'package:ecommerce_final_project/utils/colors.dart';
+// import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:provider/provider.dart';
@@ -65,7 +65,7 @@ class _ProductTileState extends State<ProductTile> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       image: DecorationImage(
-                        image: NetworkImage(widget.item.imagePath),
+                        image: NetworkImage(widget.item.image ?? ""),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -95,9 +95,12 @@ class _ProductTileState extends State<ProductTile> {
       
             // Title Product
             Text(
-              widget.item.titleProduct,
+              widget.item.title ?? "",
+              maxLines: 2,
+              textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 18,
+                overflow: TextOverflow.ellipsis,
+                fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -107,13 +110,13 @@ class _ProductTileState extends State<ProductTile> {
             ),
       
             // Brand Product
-            Text(
-              widget.item.brandProduct,
-              style: TextStyle(
-                fontSize: 12,
-                color: fontGrayColor,
-              ),
-            ),
+            // Text(
+            //   widget.item.brandProduct,
+            //   style: TextStyle(
+            //     fontSize: 12,
+            //     color: fontGrayColor,
+            //   ),
+            // ),
       
             // Price Product
             Text(

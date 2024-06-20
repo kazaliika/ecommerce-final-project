@@ -48,6 +48,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.1
   http: ^1.2.1
   get: ^4.6.6
+  dio: ^5.4.3+1
   
 
 

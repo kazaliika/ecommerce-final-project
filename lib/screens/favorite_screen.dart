@@ -22,7 +22,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
     // Filter favorite list based on the search query
     final filteredList = favoritelist.where((item) {
-      return item.titleProduct
+      return item.title!
           .toLowerCase()
           .contains(searchQuery.toLowerCase());
     }).toList();

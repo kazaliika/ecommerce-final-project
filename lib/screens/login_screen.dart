@@ -129,17 +129,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () {
-                  },
                   // onPressed: () {
-                  //   Navigator.of(context).push(
-                  //     MaterialPageRoute(
-                  //       builder: (BuildContext context) {
-                  //         return BottomNavigation();
-                  //       },
-                  //     ),
-                  //   );
                   // },
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return BottomNavigation();
+                        },
+                      ),
+                    );
+                  },
                   child: Text('Sign In'),
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(vertical: 16),

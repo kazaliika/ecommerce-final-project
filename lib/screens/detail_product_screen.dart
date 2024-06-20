@@ -90,7 +90,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
             decoration: BoxDecoration(
               image: DecorationImage(
                   image: NetworkImage(
-                    widget.item.imagePath,
+                    widget.item.image??"",
                   ),
                   fit: BoxFit.cover),
             ),
@@ -176,56 +176,63 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                     // Header Information Product
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // Title of Product
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                widget.item.titleProduct,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Title of Product
+                              Padding(
+                                padding: const EdgeInsets.only(left: 5),
+                                child: Container(
+                                  child: Text(
+                                    widget.item.title??"",
+                                    maxLines: 2,
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 2,
-                            ),
-
-                            // Rating Product
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Icon(
-                                  Icons.star_rate_rounded,
-                                  color: Colors.orange,
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  "4.8",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
+                              SizedBox(
+                                height: 10,
+                              ),
+                          
+                              // Rating Product
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.star_rate_rounded,
+                                    color: Colors.orange,
                                   ),
-                                ),
-                                SizedBox(
-                                  width: 3,
-                                ),
-                                Text(
-                                  "(320 Review)",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: fontGrayColor,
+                                  SizedBox(
+                                    width: 5,
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                  Text(
+                                    "4.8",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 3,
+                                  ),
+                                  Text(
+                                    "(320 Review)",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: fontGrayColor,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
 
                         // Favorite Button
@@ -321,7 +328,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                         image:
-                                            NetworkImage(widget.item.imagePath),
+                                            NetworkImage(widget.item.image??""),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
