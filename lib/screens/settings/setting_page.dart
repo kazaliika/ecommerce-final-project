@@ -1,3 +1,4 @@
+import 'package:ecommerce_final_project/screens/onboarding.dart';
 import 'package:ecommerce_final_project/screens/profile_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -179,7 +180,12 @@ class SettingsScreen extends StatelessWidget {
                                   child: Text('Logout'),
                                   onPressed: () {
                                     // Tambahkan tindakan logout di sini
-                                    Navigator.of(context).pop();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              OnboardingScreen()),
+                                    );
                                   },
                                 ),
                               ],
