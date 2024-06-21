@@ -1,7 +1,9 @@
+import 'package:ecommerce_final_project/controller/firebase_auth_services.dart';
 import 'package:ecommerce_final_project/screens/home/category_screen.dart';
 import 'package:ecommerce_final_project/screens/home/home_screen.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LayoutHome extends StatefulWidget {
   const LayoutHome({super.key});
@@ -13,6 +15,7 @@ class LayoutHome extends StatefulWidget {
 class _LayoutHomeState extends State<LayoutHome>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final AuthController authController = Get.find<AuthController>();
 
   @override
   void initState() {
@@ -32,10 +35,7 @@ class _LayoutHomeState extends State<LayoutHome>
         toolbarHeight: 100,
         leadingWidth: 80,
         leading: Padding(
-          padding: const EdgeInsets.only(
-            left: 25.0,
-            top: 25
-          ),
+          padding: const EdgeInsets.only(left: 25.0, top: 25),
           child: Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -54,15 +54,13 @@ class _LayoutHomeState extends State<LayoutHome>
               height: 25,
             ),
             // Greet User Text
-            Text(
-              'Hi, Sigit',
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-            ),
-
+             Text(
+                'Hi, ${authController.user.value?.displayName ?? 'User'}',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+              ),
             SizedBox(
               height: 5,
             ),
-
             // CTA Text
             Text(
               "Let's go shopping",
@@ -106,7 +104,6 @@ class _LayoutHomeState extends State<LayoutHome>
             Tab(
               text: "Home",
             ),
-
             // Tab Category
             Tab(
               text: "Category",

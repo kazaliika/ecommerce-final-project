@@ -1,3 +1,4 @@
+import 'package:ecommerce_final_project/controller/firebase_auth_services.dart'; // Import AuthController
 import 'package:ecommerce_final_project/models/favorite.dart';
 import 'package:ecommerce_final_project/models/shop.dart';
 import 'package:ecommerce_final_project/models/transaction_services.dart';
@@ -7,8 +8,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-
 import 'package:provider/provider.dart';
+import 'package:get/get.dart'; // Import GetX
 import 'firebase_options.dart';
 
 void main() async {
@@ -16,10 +17,9 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // assert(() {
-  //   FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
-  //   return true;
-  // }());
+
+  // Inisialisasi AuthController menggunakan GetX
+  Get.put(AuthController());
 
   runApp(
     MultiProvider(
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FlutterNativeSplash.remove();
-    return MaterialApp(
+    return GetMaterialApp( // Ganti MaterialApp dengan GetMaterialApp
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: GoogleFonts.poppins().fontFamily),
       home: SplashScreen(),

@@ -1,91 +1,70 @@
+import 'package:ecommerce_final_project/controller/firebase_auth_services.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
-enum IconPosition { leading, trailing }
-
-class ProfileField extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final String text;
-  final Widget? trailingIcon;
-  final IconPosition iconPosition;
-
-  const ProfileField({
-    required this.label,
-    required this.icon,
-    required this.text,
-    this.trailingIcon,
-    this.iconPosition = IconPosition.leading,
-  });
-
+class ProfileScreen extends StatefulWidget {
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-          ),
-        ),
-        SizedBox(height: 8),
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(
-                color: Colors.grey.shade200, width: 1),
-          ),
-          child: Row(
-            children: iconPosition == IconPosition.leading
-                ? _buildLeadingIconRow()
-                : _buildTrailingIconRow(),
-          ),
-        ),
-      ],
-    );
-  }
-
-  List<Widget> _buildLeadingIconRow() {
-    return [
-      Icon(icon, color: Colors.black),
-      SizedBox(width: 16),
-      Expanded(
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.black,
-          ),
-        ),
-      ),
-      if (trailingIcon != null) trailingIcon!,
-    ];
-  }
-
-  List<Widget> _buildTrailingIconRow() {
-    return [
-      if (trailingIcon != null) trailingIcon!,
-      SizedBox(width: 16),
-      Expanded(
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 16,
-            color: Colors.black,
-          ),
-        ),
-      ),
-      Icon(icon, color: Colors.black),
-    ];
-  }
+  _ProfileScreenState createState() => _ProfileScreenState();
 }
 
-class ProfileScreen extends StatelessWidget {
+class _ProfileScreenState extends State<ProfileScreen> {
+  final AuthController authController = Get.find<AuthController>();
+  final ImagePicker _picker = ImagePicker();
+  File? _image;
+
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameController.text = authController.user.value?.displayName ?? '';
+    _emailController.text = authController.user.value?.email ?? '';
+  }
+
+  Future<void> _pickImage() async {
+    final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+      // You can upload the image to your server or Firebase storage here
+    }
+  }
+
+  Future<void> _saveChanges() async {
+    try {
+      // Update email
+      if (_emailController.text != authController.user.value?.email) {
+        await authController.user.value?.updateEmail(_emailController.text);
+      }
+
+      // Update display name
+      if (_usernameController.text != authController.user.value?.displayName) {
+        await authController.user.value?.updateDisplayName(_usernameController.text);
+      }
+
+      // Optionally, you can update the user info in Firestore if you are using it
+      // await FirebaseFirestore.instance
+      //     .collection('users')
+      //     .doc(authController.user.value?.uid)
+      //     .update({
+      //       'displayName': _usernameController.text,
+      //       'email': _emailController.text,
+      //     });
+
+      Get.snackbar('Success', 'Profile updated successfully',
+          snackPosition: SnackPosition.BOTTOM);
+    } catch (e) {
+      Get.snackbar('Error', e.toString(),
+          snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,33 +105,49 @@ class ProfileScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 50,
-                      backgroundImage:
-                          AssetImage('assets/images/profile-picture.jpg'),
+                      backgroundImage: _image != null
+                          ? FileImage(_image!)
+                          : AssetImage('assets/images/profile-picture.jpg') as ImageProvider,
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _pickImage,
+                      child: Text('Ubah'),
+                      style: ElevatedButton.styleFrom(
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        backgroundColor: blueColor,
+                        foregroundColor: Colors.white,
+                      ),
                     ),
                     SizedBox(height: 20),
-                    ProfileField(
-                      label: 'Username',
-                      icon: Icons.person_outline,
-                      text: 'Sigit',
+                    TextField(
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        labelText: 'Username',
+                        prefixIcon: Icon(Icons.person_outline),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 20),
-                    ProfileField(
-                      label: 'Email or Phone Number',
-                      icon: Icons.email_outlined,
-                      text: 'sigit@gmail.com',
-                    ),
-                    SizedBox(height: 20),
-                    ProfileField(
-                      label: 'Account Linked With',
-                      trailingIcon:
-                          Image.asset('assets/images/google.png', height: 24),
-                      text: 'Google',
-                      icon: Icons.link,
-                      iconPosition: IconPosition.trailing,
+                    TextField(
+                      controller: _emailController,
+                      decoration: InputDecoration(
+                        labelText: 'Email or Phone Number',
+                        prefixIcon: Icon(Icons.email_outlined),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
                     ),
                     SizedBox(height: 50),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: _saveChanges,
                       child: Text('Save Changes'),
                       style: ElevatedButton.styleFrom(
                         padding:
