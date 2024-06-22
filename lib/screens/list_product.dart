@@ -17,17 +17,24 @@ class ListProduct extends StatefulWidget {
 
 class _ListProductState extends State<ListProduct> {
   String searchQuery = ""; // Inisialisasi variabel untuk query pencarian
+  String filterOption = "None"; // Inisialisasi variabel untuk opsi filter
 
   @override
   Widget build(BuildContext context) {
-    final items = (widget.data == null || widget.data == [])
+    final items = (widget.data == null || widget.data!.isEmpty)
         ? context.watch<Shop>().itemList
         : widget.data;
 
-    // Memfilter daftar produk berdasarkan query pencarian
-    final filteredItems = items!.where((item) {
+    // Memfilter dan mengurutkan daftar produk berdasarkan query pencarian dan opsi filter
+    var filteredItems = items!.where((item) {
       return item.title.toLowerCase().contains(searchQuery.toLowerCase());
     }).toList();
+
+    if (filterOption == "Harga Tertinggi ke Terendah") {
+      filteredItems.sort((a, b) => b.price.compareTo(a.price));
+    } else if (filterOption == "Harga Terendah ke Tertinggi") {
+      filteredItems.sort((a, b) => a.price.compareTo(b.price));
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -54,33 +61,59 @@ class _ListProductState extends State<ListProduct> {
         ),
         bottom: PreferredSize(
           preferredSize:
-              Size(double.infinity, 50), // Mengatur ukuran PreferredSize
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: TextField(
-              onChanged: (value) {
-                setState(() {
-                  searchQuery =
-                      value; // Mengubah nilai searchQuery saat teks berubah
-                });
-              },
-              decoration: InputDecoration(
-                hintText: 'Search...', // Placeholder untuk TextField
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
-                      color: Colors.blue,
-                      width: 2), // Border saat TextField fokus
+              Size(double.infinity, 100), // Mengatur ukuran PreferredSize
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      searchQuery =
+                          value; // Mengubah nilai searchQuery saat teks berubah
+                    });
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Search...', // Placeholder untuk TextField
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                          color: Colors.blue,
+                          width: 2), // Border saat TextField fokus
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(
+                          color: Colors.grey), // Border default TextField
+                    ),
+                    prefixIcon: Icon(Icons
+                        .search), // Ikon pencarian di sebelah kiri TextField
+                  ),
                 ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(
-                      color: Colors.grey), // Border default TextField
-                ),
-                prefixIcon: Icon(
-                    Icons.search), // Ikon pencarian di sebelah kiri TextField
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: DropdownButton<String>(
+                  value: filterOption,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      filterOption = newValue!;
+                    });
+                  },
+                  items: <String>[
+                    'None',
+                    'Harga Tertinggi ke Terendah',
+                    'Harga Terendah ke Tertinggi'
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  isExpanded: true,
+                ),
+              ),
+            ],
           ),
         ),
       ),
