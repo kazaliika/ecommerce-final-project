@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 
 List onBoardingData = [
   {
-    "image": "assets/images/on1.png",
+    "image": "assets/images/onb1.png",
     "title": "Beragam Koleksi Produk\nTerbaru",
     "deskripsi":
         "Lorem Ipsum is simply dummy text\nof the printing and typesetting\nindustry. Lorem",
   },
   {
-    "image": "assets/images/on2.png",
+    "image": "assets/images/onb2.png",
     "title": "Koleksi Warna dan\nUkuran yang Lengkap",
     "deskripsi":
         "Lorem Ipsum is simply dummy text\nof the printing and typesetting\nindustry. Lorem",

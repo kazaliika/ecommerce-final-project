@@ -4,16 +4,19 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class AuthController {
+class AuthController extends GetxController {
   FirebaseAuth auth = FirebaseAuth.instance;
+  var user = Rxn<User>();
 
-  Stream<User?> get streamAuthStatus => auth.authStateChanges();
+  @override
+  void onInit() {
+    user.bindStream(auth.authStateChanges());
+    super.onInit();
+  }
 
   Future<User?> login(String email, String password) async {
     try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      // If sign up is successful, navigate to the home page
+      await auth.signInWithEmailAndPassword(email: email, password: password);
       Get.offAll(() => LayoutHome());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -27,14 +30,14 @@ class AuthController {
 
   Future<User?> signUp(String email, String password) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      await auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+      Get.offAll(() => LayoutHome());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
-        Get.offAll(() => LayoutHome());
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
       }
@@ -45,36 +48,46 @@ class AuthController {
   }
 
   void logOut() async {
-    await FirebaseAuth.instance.signOut();
+    await auth.signOut();
   }
 
   Future<UserCredential> signInWithGoogle() async {
-    // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
+    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
     final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth?.accessToken,
       idToken: googleAuth?.idToken,
     );
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    return await auth.signInWithCredential(credential);
   }
 
   Future<UserCredential> signInWithFacebook() async {
-    // Trigger the sign-in flow
     final LoginResult loginResult = await FacebookAuth.instance.login();
+    final OAuthCredential facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken!.tokenString);
+    return auth.signInWithCredential(facebookAuthCredential);
+  }
 
-    // Create a credential from the access token
-    final OAuthCredential facebookAuthCredential =
-        FacebookAuthProvider.credential(loginResult.accessToken!.tokenString);
+  Future<void> updateUserProfile(String displayName, String email) async {
+    try {
+      User? currentUser = FirebaseAuth.instance.currentUser;
 
-    // Once signed in, return the UserCredential
-    return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+      if (currentUser != null) {
+        await currentUser.updateEmail(email);
+        await currentUser.updateDisplayName(displayName);
+
+        // Optionally, you can update the user info in Firestore if you are using it
+        // await FirebaseFirestore.instance
+        //     .collection('users')
+        //     .doc(currentUser.uid)
+        //     .update({
+        //       'displayName': displayName,
+        //       'email': email,
+        //     });
+
+        user.value = currentUser;
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
 }
