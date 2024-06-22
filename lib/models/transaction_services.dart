@@ -18,7 +18,7 @@ class TransactionServices extends ChangeNotifier{
   // add transaction to order
   void addItemtoOrderList(Item product, int qty) {
     
-    double total = product.price! * qty;
+    double total = product.price * qty;
     String name = "Abdul";
 
     Transaction newTransaction = Transaction(

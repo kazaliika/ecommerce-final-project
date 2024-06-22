@@ -1,9 +1,6 @@
-import 'package:ecommerce_final_project/components/confirm_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../models/item.dart';
-import '../models/shop.dart';
 import '../utils/colors.dart';
 
 class CartTile extends StatefulWidget {
@@ -65,7 +62,7 @@ class _CartTileState extends State<CartTile> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     image: DecorationImage(
-                      image: NetworkImage(widget.item.image ?? ""),
+                      image: NetworkImage(widget.item.image),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -84,7 +81,7 @@ class _CartTileState extends State<CartTile> {
                   children: [
                     // Title
                     Text(
-                      widget.item.title ?? "",
+                      widget.item.title,
                       maxLines: 2,
                       softWrap: true, // Ensure text wraps to next line
                       style: TextStyle(
@@ -92,24 +89,6 @@ class _CartTileState extends State<CartTile> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    // Variant
-                    // Row(
-                    //   children: [
-                    //     Text(
-                    //       "Variant: ",
-                    //       style: TextStyle(
-                    //         fontSize: 12,
-                    //         color: fontGrayColor,
-                    //       ),
-                    //     ),
-                    //     Text(
-                    //       widget.item.brandProduct,
-                    //       style: TextStyle(
-                    //         fontSize: 12,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                     SizedBox(
                       height: 10,
                     ),

@@ -87,7 +87,7 @@ class _CartScreenState extends State<CartScreen> {
 
     for (var item in checkedItems) {
       if (itemCart.containsKey(item)) {
-        totalAmount += item.price! * itemCart[item]!;
+        totalAmount += item.price * itemCart[item]!;
       }
     }
 
@@ -278,15 +278,6 @@ class _CartScreenState extends State<CartScreen> {
                       SizedBox(
                         height: 20,
                       ),
-                      // DottedDashedLine(
-                      //   height: 0,
-                      //   width: double.infinity,
-                      //   axis: Axis.horizontal,
-                      //   dashColor: fontGrayColor,
-                      // ),
-                      // SizedBox(
-                      //   height: 20,
-                      // ),
                       Container(
                         width: double.infinity,
                         height: 60,

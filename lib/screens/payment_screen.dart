@@ -6,7 +6,6 @@ import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/favorite.dart';
 import '../models/item.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -35,7 +34,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       final item = data.key;
       final qty = data.value;
 
-      totalAmount += item.price! * qty;
+      totalAmount += item.price * qty;
     }
     return totalAmount;
   }

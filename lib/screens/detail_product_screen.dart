@@ -21,22 +21,21 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
   int selectedVariant = 0;
 
   // add item to cart
-  // void addItemToCart(BuildContext context, Item item) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return ConfirmDialog(
-  //         title: "This item will be in your cart, are you sure?",
-  //         onCancel: () => Navigator.of(context).pop(),
-  //         onAccept: () {
-  //           context.read<Shop>().addToCart(item);
-  //           Navigator.of(context).pop();
-  //         },
-  //       );
-  //     },
-  //   );
-  //   print(context.watch<Shop>().userCart.length);
-  // }
+  void addItemToCart(BuildContext context, Item item) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return ConfirmDialog(
+          title: "This item will be in your cart, are you sure?",
+          onCancel: () => Navigator.of(context).pop(),
+          onAccept: () {
+            context.read<Shop>().addToCart(item);
+            Navigator.of(context).pop();
+          },
+        );
+      },
+    );
+  }
 
   // add to favorite
   void addToFavoriteList(BuildContext context) {
@@ -61,25 +60,6 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
   Widget build(BuildContext context) {
     bool isFavorite = context.watch<Favorite>().isFavorite(widget.item);
 
-    // add item to cart
-    void addItemToCart(Item item) {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return ConfirmDialog(
-            title: "This item will be in your cart, are you sure?",
-            onCancel: () => Navigator.of(context).pop(),
-            onAccept: () {
-              context.read<Shop>().addToCart(item);
-              Navigator.of(context).pop();
-              // print the length of the cart after adding the item
-              print(context.read<Shop>().userCart.length);
-            },
-          );
-        },
-      );
-    }
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -90,7 +70,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
             decoration: BoxDecoration(
               image: DecorationImage(
                   image: NetworkImage(
-                    widget.item.image??"",
+                    widget.item.image,
                   ),
                   fit: BoxFit.cover),
             ),
@@ -187,7 +167,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                 padding: const EdgeInsets.only(left: 5),
                                 child: Container(
                                   child: Text(
-                                    widget.item.title??"",
+                                    widget.item.title,
                                     maxLines: 2,
                                     style: TextStyle(
                                       fontSize: 20,
@@ -199,11 +179,10 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                               SizedBox(
                                 height: 10,
                               ),
-                          
+
                               // Rating Product
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Icon(
                                     Icons.star_rate_rounded,
@@ -213,7 +192,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                     width: 5,
                                   ),
                                   Text(
-                                    "4.8",
+                                    "${widget.item.rate}",
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.bold,
@@ -223,7 +202,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                                     width: 3,
                                   ),
                                   Text(
-                                    "(320 Review)",
+                                    "(${widget.item.review} Review)",
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: fontGrayColor,
@@ -272,24 +251,40 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                     Expanded(
                       child: ListView(
                         children: [
-                          // // List Variant Product
-                          // Text(
-                          //   "Variation",
-                          //   style: TextStyle(
-                          //     fontSize: 16,
-                          //     fontWeight: FontWeight.bold,
-                          //   ),
-                          // ),
-                          // SizedBox(
-                          //   height: 5,
-                          // ),
-                          // VariantSelect(
-                          //   imgPath: imgPath,
-                          //   selectedVarientIndex: selectedVariant,
-                          // ),
-                          // SizedBox(
-                          //   height: 20,
-                          // ),
+                          // Caategory Product
+                          Text(
+                            "Category",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 5),
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: blueColor, width: 2),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  widget.item.category,
+                                  style: TextStyle(
+                                    color: blueColor,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
 
                           // Description Product
                           Text(
@@ -303,8 +298,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                             height: 5,
                           ),
                           DescriptionText(
-                            text:
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                            text: widget.item.description,
                             maxLines: 3,
                             style: TextStyle(
                               fontSize: 14,
@@ -315,83 +309,83 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
                           ),
 
                           // Profile Penjual
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  // Image Profile Penjual
-                                  Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                        image:
-                                            NetworkImage(widget.item.image??""),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //   children: [
+                          //     Row(
+                          //       children: [
+                          //         // Image Profile Penjual
+                          //         Container(
+                          //           height: 50,
+                          //           width: 50,
+                          //           decoration: BoxDecoration(
+                          //             shape: BoxShape.circle,
+                          //             image: DecorationImage(
+                          //               image: NetworkImage(
+                          //                   widget.item.image),
+                          //               fit: BoxFit.cover,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //         SizedBox(
+                          //           width: 10,
+                          //         ),
 
-                                  // Nama Penjual
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Babang Gantenz",
-                                        style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 2,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "104 Products",
-                                            style: TextStyle(
-                                              color: fontGrayColor,
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            "1.3k Followers",
-                                            style: TextStyle(
-                                              color: fontGrayColor,
-                                              fontSize: 10,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              ElevatedButton(
-                                onPressed: () {},
-                                style: ButtonStyle(
-                                  backgroundColor:
-                                      WidgetStatePropertyAll(blueColor),
-                                  foregroundColor:
-                                      WidgetStatePropertyAll(Colors.white),
-                                ),
-                                child: Text(
-                                  "Follow",
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                              ),
-                            ],
-                          ),
+                          //         // Nama Penjual
+                          //         Column(
+                          //           crossAxisAlignment:
+                          //               CrossAxisAlignment.start,
+                          //           children: [
+                          //             Text(
+                          //               "Babang Gantenz",
+                          //               style: TextStyle(
+                          //                 fontSize: 14,
+                          //                 fontWeight: FontWeight.bold,
+                          //               ),
+                          //             ),
+                          //             SizedBox(
+                          //               height: 2,
+                          //             ),
+                          //             Row(
+                          //               children: [
+                          //                 Text(
+                          //                   "104 Products",
+                          //                   style: TextStyle(
+                          //                     color: fontGrayColor,
+                          //                     fontSize: 10,
+                          //                   ),
+                          //                 ),
+                          //                 SizedBox(
+                          //                   width: 10,
+                          //                 ),
+                          //                 Text(
+                          //                   "1.3k Followers",
+                          //                   style: TextStyle(
+                          //                     color: fontGrayColor,
+                          //                     fontSize: 10,
+                          //                   ),
+                          //                 ),
+                          //               ],
+                          //             ),
+                          //           ],
+                          //         ),
+                          //       ],
+                          //     ),
+                          //     ElevatedButton(
+                          //       onPressed: () {},
+                          //       style: ButtonStyle(
+                          //         backgroundColor:
+                          //             WidgetStatePropertyAll(blueColor),
+                          //         foregroundColor:
+                          //             WidgetStatePropertyAll(Colors.white),
+                          //       ),
+                          //       child: Text(
+                          //         "Follow",
+                          //         style: TextStyle(fontSize: 14),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                           SizedBox(
                             height: 100,
                           ),
@@ -469,7 +463,7 @@ class _DetailProductScreenState extends State<DetailProductScreen> {
 
                   // Add to Cart Button
                   ElevatedButton(
-                      onPressed: () => addItemToCart(widget.item),
+                      onPressed: () => addItemToCart(context, widget.item),
                       style: ButtonStyle(
                         padding: WidgetStatePropertyAll(
                           EdgeInsets.symmetric(

@@ -1,8 +1,8 @@
+import 'package:ecommerce_final_project/models/category_item.dart';
 import 'package:ecommerce_final_project/models/favorite.dart';
 import 'package:ecommerce_final_project/models/shop.dart';
 import 'package:ecommerce_final_project/models/transaction_services.dart';
 import 'package:ecommerce_final_project/screens/splash_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -16,6 +16,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
   // assert(() {
   //   FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
   //   return true;
@@ -25,6 +26,10 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => Shop()),
+        ChangeNotifierProxyProvider<Shop, CategoryItem>(
+          create: (context) => CategoryItem(Provider.of<Shop>(context, listen: false).itemList),
+          update: (context, shop, categoryItem) => CategoryItem(shop.itemList),
+        ),
         ChangeNotifierProvider(create: (context) => Favorite()),
         ChangeNotifierProvider(create: (context) => TransactionServices()),
       ],
