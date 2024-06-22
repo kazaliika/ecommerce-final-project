@@ -65,7 +65,7 @@ class _ProductTileState extends State<ProductTile> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       image: DecorationImage(
-                        image: NetworkImage(widget.item.image ?? ""),
+                        image: NetworkImage(widget.item.image),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -95,7 +95,7 @@ class _ProductTileState extends State<ProductTile> {
       
             // Title Product
             Text(
-              widget.item.title ?? "",
+              widget.item.title,
               maxLines: 2,
               textAlign: TextAlign.center,
               style: TextStyle(

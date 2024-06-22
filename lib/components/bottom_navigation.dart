@@ -1,4 +1,3 @@
-import 'package:ecommerce_final_project/screens/cart_screen.dart';
 import 'package:ecommerce_final_project/screens/favorite_screen.dart';
 import 'package:ecommerce_final_project/screens/order/layout_order.dart';
 import 'package:ecommerce_final_project/screens/settings/setting_page.dart';

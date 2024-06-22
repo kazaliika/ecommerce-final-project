@@ -1,8 +1,8 @@
-import 'package:dio/dio.dart';
-import 'package:ecommerce_final_project/models/item.dart';
+import 'package:ecommerce_final_project/screens/list_product.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/product_tile.dart';
@@ -18,32 +18,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Item>? products;
-
-  Future<void> getData() async {
-    const String apiUrl = "https://fakestoreapi.com/products";
-    try {
-      Response response = await Dio().get(apiUrl);
-      if (response.data != null) {
-        setState(() {
-          products = (response.data as List)
-              .map((productJson) => Item.fromJson(productJson))
-              .toList();
-        });
-      } else {
-        throw Exception("Api response is null or in an unexpected format");
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  @override
-  void initState() {
-    getData();
-    super.initState();
-  }
-
   final List<String> imgList = [
     'assets/images/banner_1.png',
     'assets/images/banner_2.png',
@@ -108,7 +82,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  pushScreen(context, screen: ListProduct(data: items,));
+                },
                 child: Text(
                   "see all",
                   style: TextStyle(
@@ -122,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
 
           // GridView Item
-          products == null
+          items == []
               ? Center(child: CircularProgressIndicator())
               : SizedBox(
                   height: 650,
@@ -133,12 +109,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisSpacing: 20,
                       childAspectRatio: 9 / 16,
                     ),
-                    itemCount: products!.length,
+                    itemCount: items.length,
                     itemBuilder: (context, index) {
                       final item = items[index];
                       return ProductTile(
                         item: item,
-                        );
+                      );
                     },
                   ),
                 ),
