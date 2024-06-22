@@ -1,6 +1,7 @@
 import 'package:ecommerce_final_project/controller/firebase_auth_services.dart';
 import 'package:ecommerce_final_project/screens/home/category_screen.dart';
 import 'package:ecommerce_final_project/screens/home/home_screen.dart';
+import 'package:ecommerce_final_project/screens/list_product.dart';
 import 'package:ecommerce_final_project/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -54,10 +55,10 @@ class _LayoutHomeState extends State<LayoutHome>
               height: 25,
             ),
             // Greet User Text
-             Text(
-                'Hi, ${authController.user.value?.displayName ?? 'User'}',
-                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-              ),
+            Text(
+              'Hi, ${authController.user.value?.displayName ?? 'User'}',
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            ),
             SizedBox(
               height: 5,
             ),
@@ -75,7 +76,17 @@ class _LayoutHomeState extends State<LayoutHome>
           // Search
           Padding(
             padding: const EdgeInsets.only(top: 25),
-            child: IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+            child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return ListProduct(); // Mengarahkan ke layar ListProduct
+                      },
+                    ),
+                  );
+                },
+                icon: Icon(Icons.search)),
           ),
 
           // Notification

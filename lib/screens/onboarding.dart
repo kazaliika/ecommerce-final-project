@@ -6,21 +6,21 @@ import 'package:flutter/material.dart';
 List onBoardingData = [
   {
     "image": "assets/images/onb1.png",
-    "title": "Beragam Koleksi Produk\nTerbaru",
+    "title": "Selamat Datang di Kutubu",
     "deskripsi":
-        "Lorem Ipsum is simply dummy text\nof the printing and typesetting\nindustry. Lorem",
+        "Temukan berbagai kebutuhan Anda dengan mudah dan cepat di Kutubu. Dari kebutuhan sehari-hari hingga barang impian, semua ada di sini. Nikmati pengalaman berbelanja yang aman, nyaman, dan menyenangkan!",
   },
   {
     "image": "assets/images/onb2.png",
-    "title": "Koleksi Warna dan\nUkuran yang Lengkap",
+    "title": "Simpan Produk Favorit Anda",
     "deskripsi":
-        "Lorem Ipsum is simply dummy text\nof the printing and typesetting\nindustry. Lorem",
+        "Jangan khawatir kehilangan produk yang Anda sukai. Dengan fitur Favorite kami, Anda dapat menyimpan dan mengakses kembali produk favorit kapan saja. Temukan dan simpan barang impian Anda dengan satu sentuhan!",
   },
   {
     "image": "assets/images/on3.png",
-    "title": "Temukan Pakaian yang\nPaling Cocok Untuk\nAnda",
+    "title": "Lacak Riwayat Transaksi Anda",
     "deskripsi":
-        "Lorem Ipsum is simply dummy text\nof the printing and typesetting\nindustry. Lorem",
+        "Pantau semua pembelian Anda dengan mudah. Fitur Riwayat Transaksi kami memungkinkan Anda melihat kembali semua transaksi sebelumnya untuk referensi dan bukti pembelian. Belanja aman, nyaman, dan terorganisir dengan Kutubu!",
   },
 ];
 
