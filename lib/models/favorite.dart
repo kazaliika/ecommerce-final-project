@@ -2,8 +2,8 @@ import 'package:ecommerce_final_project/models/item.dart';
 import 'package:flutter/material.dart';
 
 class Favorite extends ChangeNotifier{
-  List<Item> _itemsFavorite = [];
-
+  List<Item> _itemsFavorite =
+ [];
   // get user favorite list
   List<Item> get favoriteList => _itemsFavorite;
 
